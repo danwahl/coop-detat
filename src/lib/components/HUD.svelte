@@ -11,31 +11,31 @@
 	let { turnNumber, par, status, onUndo, onRestart, onBack }: Props = $props();
 </script>
 
-<div class="hud">
+<div class="hud" data-testid="hud">
 	<div class="hud-left">
-		<button onclick={onBack}>Back</button>
+		<button data-testid="back-button" onclick={onBack}>Back</button>
 	</div>
 	<div class="hud-center">
-		<span>Moves: {turnNumber}</span>
+		<span data-testid="move-counter">Moves: {turnNumber}</span>
 		{#if par}
-			<span class="par">Par: {par}</span>
+			<span class="par" data-testid="par-display">Par: {par}</span>
 		{/if}
 	</div>
 	<div class="hud-right">
-		<button onclick={onUndo}>Undo</button>
-		<button onclick={onRestart}>Restart</button>
+		<button data-testid="undo-button" onclick={onUndo}>Undo</button>
+		<button data-testid="restart-button" onclick={onRestart}>Restart</button>
 	</div>
 </div>
 
 {#if status !== 'playing'}
-	<div class="overlay" class:won={status === 'won'} class:lost={status === 'lost'}>
+	<div class="overlay" class:won={status === 'won'} class:lost={status === 'lost'} data-testid="status-overlay">
 		<div class="overlay-content">
-			<h2>{status === 'won' ? 'Level Complete!' : 'Detected!'}</h2>
+			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Detected!'}</h2>
 			{#if status === 'won'}
 				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
 			{/if}
-			<button onclick={onRestart}>Restart</button>
-			<button onclick={onBack}>Back</button>
+			<button data-testid="overlay-restart-button" onclick={onRestart}>Restart</button>
+			<button data-testid="overlay-back-button" onclick={onBack}>Back</button>
 		</div>
 	</div>
 {/if}

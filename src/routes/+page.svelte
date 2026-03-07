@@ -13,18 +13,18 @@
 {:else if selectedLevel}
 	<GameView level={selectedLevel} onBack={() => (selectedLevel = null)} />
 {:else}
-	<div class="menu">
+	<div class="menu" data-testid="menu">
 		<h1>Coop D'etat</h1>
 		<p>Rescue the chickens.</p>
 		<div class="level-list">
 			{#each levels as level}
-				<button onclick={() => (selectedLevel = level)}>
+				<button data-testid="level-button-{level.id}" onclick={() => (selectedLevel = level)}>
 					{level.name}
 					{#if level.par}<span class="par">Par: {level.par}</span>{/if}
 				</button>
 			{/each}
 		</div>
-		<button class="editor-btn" onclick={() => (showEditor = true)}>Level Editor</button>
+		<button class="editor-btn" data-testid="editor-button" onclick={() => (showEditor = true)}>Level Editor</button>
 	</div>
 {/if}
 

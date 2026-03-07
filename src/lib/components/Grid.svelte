@@ -51,14 +51,17 @@
 </script>
 
 <svg
+	data-testid="game-grid"
 	viewBox="0 0 {state.level.width * cellSize} {state.level.height * cellSize}"
 	style="max-width: 100%; max-height: 100%; display: block;"
 >
+	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 	<!-- Grid cells -->
 	{#each state.level.grid as row, gy}
 		{#each row as cell, gx}
 			{@const isCageCollected = cell === 'cage' && collectedSet.has(`${gx},${gy}`)}
 			<rect
+				data-testid="cell-{gx}-{gy}"
 				x={gx * cellSize}
 				y={gy * cellSize}
 				width={cellSize}
@@ -75,6 +78,7 @@
 	{#each [...visibleSet] as key}
 		{@const [vx, vy] = key.split(',').map(Number)}
 		<rect
+			data-testid="vision-{vx}-{vy}"
 			x={vx * cellSize}
 			y={vy * cellSize}
 			width={cellSize}
@@ -85,6 +89,7 @@
 
 	<!-- Exit marker -->
 	<rect
+		data-testid="exit-marker"
 		x={state.level.exit.x * cellSize + 4}
 		y={state.level.exit.y * cellSize + 4}
 		width={cellSize - 8}
@@ -99,6 +104,7 @@
 	{#each state.snake as seg, i}
 		{#if i > 0}
 			<circle
+				data-testid="snake-segment-{i}"
 				cx={seg.x * cellSize + cellSize / 2}
 				cy={seg.y * cellSize + cellSize / 2}
 				r={cellSize / 3}
@@ -111,6 +117,7 @@
 
 	<!-- Player head -->
 	<circle
+		data-testid="player-head"
 		cx={state.playerPos.x * cellSize + cellSize / 2}
 		cy={state.playerPos.y * cellSize + cellSize / 2}
 		r={cellSize / 2.5}
@@ -123,6 +130,7 @@
 	{#each state.guards as guard}
 		{@const gp = guardPos(guard)}
 		<polygon
+			data-testid="guard-{guard.id}"
 			points={DIRECTION_ARROWS[guard.facing]}
 			transform="translate({gp.x * cellSize + cellSize / 2}, {gp.y * cellSize + cellSize / 2})"
 			fill="#2196F3"
@@ -135,6 +143,7 @@
 	{#each state.cameras as camera}
 		{@const facing = camera.directions[camera.dirIndex]}
 		<rect
+			data-testid="camera-{camera.id}"
 			x={camera.pos.x * cellSize + 6}
 			y={camera.pos.y * cellSize + 6}
 			width={cellSize - 12}
