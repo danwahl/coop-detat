@@ -1,0 +1,28 @@
+{
+	"id": "level2",
+	"name": "Under Watch",
+	"width": 8,
+	"height": 5,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "cage", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 1 },
+	"guards": [],
+	"cameras": [
+		{
+			"id": "cam1",
+			"pos": { "x": 6, "y": 1 },
+			"directions": ["left"],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 4
+		}
+	],
+	"exit": { "x": 6, "y": 3 },
+	"par": 7
+}

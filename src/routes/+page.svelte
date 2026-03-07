@@ -2,11 +2,15 @@
 	import type { LevelDef } from '$lib/engine/types.js';
 	import { levels } from '$lib/levels/index.js';
 	import GameView from '$lib/components/GameView.svelte';
+	import EditorView from '$lib/components/EditorView.svelte';
 
 	let selectedLevel = $state<LevelDef | null>(null);
+	let showEditor = $state(false);
 </script>
 
-{#if selectedLevel}
+{#if showEditor}
+	<EditorView onBack={() => (showEditor = false)} />
+{:else if selectedLevel}
 	<GameView level={selectedLevel} onBack={() => (selectedLevel = null)} />
 {:else}
 	<div class="menu">
@@ -20,6 +24,7 @@
 				</button>
 			{/each}
 		</div>
+		<button class="editor-btn" onclick={() => (showEditor = true)}>Level Editor</button>
 	</div>
 {/if}
 
@@ -59,4 +64,16 @@
 	}
 	.level-list button:hover { background: #444; }
 	.par { color: #888; }
+	.editor-btn {
+		margin-top: 32px;
+		padding: 12px 24px;
+		font-size: 1rem;
+		font-family: monospace;
+		background: #555;
+		color: white;
+		border: 1px solid #777;
+		border-radius: 8px;
+		cursor: pointer;
+	}
+	.editor-btn:hover { background: #666; }
 </style>

@@ -1,0 +1,28 @@
+{
+	"id": "level3",
+	"name": "Timing",
+	"width": 9,
+	"height": 5,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 2 },
+	"guards": [
+		{
+			"id": "guard1",
+			"path": [{ "x": 4, "y": 1 }, { "x": 4, "y": 3 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "down",
+			"visionRange": 3
+		}
+	],
+	"cameras": [],
+	"exit": { "x": 7, "y": 2 },
+	"par": 8
+}

@@ -1,0 +1,18 @@
+{
+	"id": "level1",
+	"name": "First Steps",
+	"width": 7,
+	"height": 5,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "cage", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 2 },
+	"guards": [],
+	"cameras": [],
+	"exit": { "x": 5, "y": 2 },
+	"par": 6
+}
