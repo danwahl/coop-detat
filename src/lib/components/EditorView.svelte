@@ -3,7 +3,7 @@
 		initEditor, clickCell, setTool, exportLevel, importLevel,
 		validate, resizeGrid, getEditorState, setLevelName, setLevelId,
 		setGuardMode, setGuardVision, finalizeGuardPath
-	} from '$lib/stores/editorStore.js';
+	} from '$lib/stores/editorStore.svelte.js';
 	import { createGameState } from '$lib/engine/state.js';
 	import { solve } from '$lib/engine/solver.js';
 	import type { LevelDef } from '$lib/engine/types.js';
@@ -99,23 +99,24 @@
 {#if testPlayLevel}
 	<GameView level={testPlayLevel} onBack={() => (testPlayLevel = null)} />
 {:else}
-	<div class="editor">
+	<div class="editor" data-testid="editor-container">
 		<div class="toolbar">
-			<button onclick={onBack}>Back</button>
-			<input type="text" value={editorState.levelName} oninput={(e) => setLevelName(e.currentTarget.value)} placeholder="Level name" />
-			<input type="text" value={editorState.levelId} oninput={(e) => setLevelId(e.currentTarget.value)} placeholder="Level ID" />
-			<label>W: <input type="number" value={editorState.width} min="3" max="33" oninput={(e) => resizeGrid(+e.currentTarget.value, editorState.height)} /></label>
-			<label>H: <input type="number" value={editorState.height} min="3" max="18" oninput={(e) => resizeGrid(editorState.width, +e.currentTarget.value)} /></label>
-			<button onclick={handleExport}>Export</button>
-			<button onclick={handleImport}>Import</button>
-			<button onclick={handleValidate}>Validate</button>
-			<button onclick={handleSolve}>Solve</button>
-			<button onclick={handleTestPlay}>Test Play</button>
+			<button data-testid="editor-back-button" onclick={onBack}>Back</button>
+			<input data-testid="level-name-input" type="text" value={editorState.levelName} oninput={(e) => setLevelName(e.currentTarget.value)} placeholder="Level name" />
+			<input data-testid="level-id-input" type="text" value={editorState.levelId} oninput={(e) => setLevelId(e.currentTarget.value)} placeholder="Level ID" />
+			<label>W: <input data-testid="width-input" type="number" value={editorState.width} min="3" max="33" oninput={(e) => resizeGrid(+e.currentTarget.value, editorState.height)} /></label>
+			<label>H: <input data-testid="height-input" type="number" value={editorState.height} min="3" max="18" oninput={(e) => resizeGrid(editorState.width, +e.currentTarget.value)} /></label>
+			<button data-testid="export-button" onclick={handleExport}>Export</button>
+			<button data-testid="import-button" onclick={handleImport}>Import</button>
+			<button data-testid="validate-button" onclick={handleValidate}>Validate</button>
+			<button data-testid="solve-button" onclick={handleSolve}>Solve</button>
+			<button data-testid="test-play-button" onclick={handleTestPlay}>Test Play</button>
 		</div>
 
 		<div class="palette">
 			{#each tools as { tool, label }}
 				<button
+					data-testid="tool-{tool}"
 					class:active={editorState.currentTool === tool}
 					onclick={() => setTool(tool)}
 				>{label}</button>
@@ -137,13 +138,13 @@
 		{/if}
 
 		{#if validationErrors.length > 0}
-			<div class="errors">
+			<div class="errors" data-testid="validation-errors">
 				{#each validationErrors as err}<p>{err}</p>{/each}
 			</div>
 		{/if}
 
 		{#if solveResult}
-			<div class="solve-result">{solveResult}</div>
+			<div class="solve-result" data-testid="solve-result">{solveResult}</div>
 		{/if}
 
 		<div class="grid-area">

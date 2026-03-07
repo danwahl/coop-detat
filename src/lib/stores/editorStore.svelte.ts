@@ -109,8 +109,8 @@ export function exportLevel(): LevelDef {
 		height,
 		grid: grid.map(row => [...row]),
 		playerStart: { ...playerStart },
-		guards: structuredClone(guards),
-		cameras: structuredClone(cameras),
+		guards: JSON.parse(JSON.stringify(guards)),
+		cameras: JSON.parse(JSON.stringify(cameras)),
 		exit: { ...exit }
 	};
 }
@@ -121,8 +121,8 @@ export function importLevel(level: LevelDef) {
 	grid = level.grid.map(row => [...row]);
 	playerStart = { ...level.playerStart };
 	exit = { ...level.exit };
-	guards = structuredClone(level.guards);
-	cameras = structuredClone(level.cameras);
+	guards = JSON.parse(JSON.stringify(level.guards));
+	cameras = JSON.parse(JSON.stringify(level.cameras));
 	levelName = level.name;
 	levelId = level.id;
 }

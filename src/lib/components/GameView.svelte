@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Direction, LevelDef } from '$lib/engine/types.js';
-	import { initGame, move, undo, restart, getState } from '$lib/stores/gameStore.js';
+	import { initGame, move, undo, restart, getState } from '$lib/stores/gameStore.svelte.js';
 	import Grid from './Grid.svelte';
 	import HUD from './HUD.svelte';
 	import { onMount } from 'svelte';
@@ -12,9 +12,7 @@
 
 	let { level, onBack }: Props = $props();
 
-	$effect(() => {
-		initGame(level);
-	});
+	initGame(level);
 
 	let state = $derived(getState());
 
@@ -74,6 +72,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	class="game-container"
+	data-testid="game-container"
 	ontouchstart={handleTouchStart}
 	ontouchend={handleTouchEnd}
 >

@@ -1,12 +1,16 @@
 import type { LevelDef, GameState } from './types.js';
 
+function deepClone<T>(obj: T): T {
+	return JSON.parse(JSON.stringify(obj));
+}
+
 export function createGameState(level: LevelDef): GameState {
 	return {
-		level,
+		level: deepClone(level),
 		playerPos: { ...level.playerStart },
 		snake: [{ ...level.playerStart }],
-		guards: structuredClone(level.guards),
-		cameras: structuredClone(level.cameras),
+		guards: deepClone(level.guards),
+		cameras: deepClone(level.cameras),
 		collectedCages: [],
 		pendingChicken: false,
 		turnNumber: 0,
@@ -15,7 +19,7 @@ export function createGameState(level: LevelDef): GameState {
 }
 
 export function cloneState(state: GameState): GameState {
-	return structuredClone(state);
+	return deepClone(state);
 }
 
 export function hashState(state: GameState): string {
