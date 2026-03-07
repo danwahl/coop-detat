@@ -1,0 +1,17 @@
+{
+	"id": "sample",
+	"name": "Sample Level",
+	"width": 5,
+	"height": 5,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 1 },
+	"guards": [],
+	"cameras": [],
+	"exit": { "x": 3, "y": 3 }
+}
