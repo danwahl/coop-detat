@@ -43,6 +43,7 @@ function advanceIndex(
 
 export function tickGuards(guards: Guard[]): Guard[] {
 	return guards.map((guard) => {
+		if (guard.path.length <= 1) return guard;
 		const prev = guard.path[guard.pathIndex];
 		const { index, direction } = advanceIndex(
 			guard.pathIndex,
