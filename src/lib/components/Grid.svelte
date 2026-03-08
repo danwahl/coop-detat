@@ -87,6 +87,17 @@
 		/>
 	{/each}
 
+	<!-- Guard patrol paths -->
+	{#each state.guards as guard}
+		<polyline
+			points={guard.path.map(p => `${p.x * cellSize + cellSize / 2},${p.y * cellSize + cellSize / 2}`).join(' ')}
+			fill="none"
+			stroke="rgba(33, 150, 243, 0.25)"
+			stroke-width="2"
+			stroke-dasharray="4 4"
+		/>
+	{/each}
+
 	<!-- Exit marker -->
 	<rect
 		data-testid="exit-marker"
