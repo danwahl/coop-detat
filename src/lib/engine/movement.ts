@@ -41,7 +41,7 @@ export function canMove(state: GameState, direction: Direction): boolean {
 	for (let i = 1; i < state.snake.length; i++) {
 		if (posEqual(state.snake[i], target)) {
 			// If this is the tail and no pending chicken, it will move away
-			if (i === tailIndex && !state.pendingChicken) continue;
+			if (i === tailIndex && i > 1 && !state.pendingChicken) continue;
 			return false;
 		}
 	}

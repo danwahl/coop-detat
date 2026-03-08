@@ -182,6 +182,27 @@ describe('cannot walk onto own body', () => {
 		// but (4,4) is body[1] which stays. So blocked.
 		expect(canMove(state, 'down')).toBe(false);
 	});
+
+	it('blocks reversal at snake length 2', () => {
+		const level = makeLevelGrid(9, 9);
+		let state = createGameState(level);
+
+		// Snake of length 2 going right: head at (4,3), tail at (3,3)
+		state.snake = [
+			{ x: 4, y: 3 },
+			{ x: 3, y: 3 }
+		];
+		state.playerPos = { x: 4, y: 3 };
+
+		// Moving left would reverse onto the tail — should be blocked
+		expect(canMove(state, 'left')).toBe(false);
+		expect(movePlayer(state, 'left')).toBeNull();
+
+		// Other directions should still work
+		expect(canMove(state, 'right')).toBe(true);
+		expect(canMove(state, 'up')).toBe(true);
+		expect(canMove(state, 'down')).toBe(true);
+	});
 });
 
 describe('chicken pickup', () => {
