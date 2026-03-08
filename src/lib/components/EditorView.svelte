@@ -20,8 +20,16 @@
 
 	let editorState = $derived(getEditorState());
 	let testPlayLevel = $state<LevelDef | null>(null);
-	let solveResult = $state<string>('');
-	let validationErrors = $state<string[]>([]);
+	let toasts = $state<{ id: number; message: string; type: 'error' | 'success' | 'info' }[]>([]);
+	let toastId = 0;
+
+	function addToast(message: string, type: 'error' | 'success' | 'info' = 'info') {
+		const id = ++toastId;
+		toasts = [...toasts, { id, message, type }];
+		setTimeout(() => {
+			toasts = toasts.filter((t) => t.id !== id);
+		}, 4000);
+	}
 
 	let previewState = $derived.by(() => {
 		const level = exportLevel();
@@ -55,28 +63,33 @@
 	}
 
 	function handleValidate() {
-		validationErrors = validate();
+		const errors = validate();
+		if (errors.length > 0) {
+			errors.forEach((e) => addToast(e, 'error'));
+		} else {
+			addToast('Validation passed', 'success');
+		}
 	}
 
 	function handleSolve() {
 		const errors = validate();
 		if (errors.length > 0) {
-			solveResult = 'Fix validation errors first';
+			addToast('Fix validation errors first', 'error');
 			return;
 		}
 		const level = exportLevel();
 		const result = solve(level, 100);
 		if (result) {
-			solveResult = `Solvable in ${result.solution.length} moves (explored ${result.explored} states)`;
+			addToast(`Solvable in ${result.solution.length} moves (explored ${result.explored} states)`, 'success');
 		} else {
-			solveResult = 'Unsolvable (or > 100 moves)';
+			addToast('Unsolvable (or > 100 moves)', 'error');
 		}
 	}
 
 	function handleTestPlay() {
 		const errors = validate();
 		if (errors.length > 0) {
-			validationErrors = errors;
+			errors.forEach((e) => addToast(e, 'error'));
 			return;
 		}
 		testPlayLevel = exportLevel();
@@ -137,20 +150,18 @@
 			</div>
 		{/if}
 
-		{#if validationErrors.length > 0}
-			<div class="errors" data-testid="validation-errors">
-				{#each validationErrors as err}<p>{err}</p>{/each}
-			</div>
-		{/if}
-
-		{#if solveResult}
-			<div class="solve-result" data-testid="solve-result">{solveResult}</div>
-		{/if}
-
 		<div class="grid-area">
 			<Grid state={previewState} showVision={false} onCellClick={clickCell} />
 		</div>
 	</div>
+
+	{#if toasts.length > 0}
+		<div class="toast-container" data-testid="toast-container">
+			{#each toasts as toast (toast.id)}
+				<div class="toast toast-{toast.type}" data-testid="toast-message">{toast.message}</div>
+			{/each}
+		</div>
+	{/if}
 {/if}
 
 <style>
@@ -164,9 +175,12 @@
 	.entity-config { padding: 8px; background: #2a2a2a; display: flex; gap: 12px; align-items: center; }
 	.entity-config label { display: flex; gap: 4px; align-items: center; }
 	.entity-config input, .entity-config select { width: 60px; padding: 2px; font-family: monospace; }
-	.errors { padding: 8px; background: #5a1a1a; }
-	.errors p { margin: 2px 0; color: #ff8888; }
-	.solve-result { padding: 8px; background: #1a3a1a; color: #88ff88; }
+	.toast-container { position: fixed; top: 16px; right: 16px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; max-width: 360px; }
+	.toast { padding: 10px 16px; border-radius: 6px; font-family: monospace; font-size: 13px; color: white; animation: toast-in 0.2s ease-out; }
+	.toast-error { background: #c62828; }
+	.toast-success { background: #2e7d32; }
+	.toast-info { background: #1565c0; }
+	@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 	.grid-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden; }
 	button { padding: 4px 12px; cursor: pointer; border: 1px solid #666; background: #555; color: white; border-radius: 4px; font-family: monospace; }
 	button:hover { background: #777; }

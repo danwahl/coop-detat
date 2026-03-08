@@ -38,22 +38,21 @@ test.describe('Level Editor', () => {
 
 	test('validation catches missing cages', async ({ page }) => {
 		await page.getByTestId('validate-button').click();
-		await expect(page.getByTestId('validation-errors')).toContainText('at least one cage');
+		await expect(page.getByTestId('toast-message').first()).toContainText('at least one cage');
 	});
 
 	test('validation passes for valid level', async ({ page }) => {
 		await selectTool(page, 'cage');
 		await clickCell(page, 4, 3);
 		await page.getByTestId('validate-button').click();
-		// No errors should appear (or previous errors should be gone)
-		await expect(page.getByTestId('validation-errors')).not.toBeVisible();
+		await expect(page.getByTestId('toast-message').first()).toContainText('Validation passed');
 	});
 
 	test('solve finds solution', async ({ page }) => {
 		await selectTool(page, 'cage');
 		await clickCell(page, 4, 3);
 		await page.getByTestId('solve-button').click();
-		await expect(page.getByTestId('solve-result')).toContainText('Solvable in');
+		await expect(page.getByTestId('toast-message').first()).toContainText('Solvable in');
 	});
 
 	test('test play launches game', async ({ page }) => {
