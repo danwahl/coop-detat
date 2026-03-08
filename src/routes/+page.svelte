@@ -31,8 +31,12 @@
 		<div class="level-list">
 			{#each levels as level}
 				{@const prog = progress[level.id]}
+				{@const atPar = prog?.solved && level.par && prog.bestMoves <= level.par}
 				<button data-testid="level-button-{level.id}" onclick={() => (selectedLevel = level)}>
-					<span>{#if prog?.solved}&#x2705; {/if}{level.name}</span>
+					<span class="level-info">
+						<span class="status-dot" class:solved={prog?.solved} class:gold={atPar}></span>
+						<span>{level.name}</span>
+					</span>
 					<span class="par">
 						{#if prog?.bestMoves}Best: {prog.bestMoves}{/if}
 						{#if level.par}{prog?.bestMoves ? ' | ' : ''}Par: {level.par}{/if}
@@ -82,6 +86,10 @@
 		justify-content: space-between;
 	}
 	.level-list button:hover { background: #444; }
+	.level-info { display: flex; align-items: center; gap: 8px; }
+	.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; flex-shrink: 0; }
+	.status-dot.solved { background: #4CAF50; }
+	.status-dot.gold { background: #FFD700; }
 	.par { color: #888; }
 	.editor-btn {
 		margin-top: 32px;
