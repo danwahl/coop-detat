@@ -141,7 +141,7 @@
 		</div>
 
 		{#if editorState.currentTool === 'guard'}
-			<div class="entity-config">
+			<div class="entity-config-floating">
 				<label>Mode:
 					<select value={editorState.editingGuardMode} onchange={(e) => setGuardMode(e.currentTarget.value as 'pace' | 'loop')}>
 						<option value="pace">Pace</option>
@@ -155,7 +155,7 @@
 		{/if}
 
 		{#if editorState.currentTool === 'camera'}
-			<div class="entity-config">
+			<div class="entity-config-floating">
 				<label>Mode:
 					<select value={editorState.editingCameraMode} onchange={(e) => setCameraMode(e.currentTarget.value as 'fixed' | 'pace' | 'loop')}>
 						<option value="fixed">Fixed</option>
@@ -200,7 +200,7 @@
 {/if}
 
 <style>
-	.editor { display: flex; flex-direction: column; height: 100vh; background: #1a1a1a; color: white; font-family: monospace; }
+	.editor { display: flex; flex-direction: column; height: 100vh; background: #1a1a1a; color: white; font-family: monospace; position: relative; }
 	.toolbar { display: flex; gap: 8px; padding: 8px; background: #333; flex-wrap: wrap; align-items: center; }
 	.toolbar input { width: 80px; padding: 4px; font-family: monospace; }
 	.toolbar input[type="text"] { width: 120px; }
@@ -209,9 +209,9 @@
 	.palette { display: flex; gap: 4px; padding: 8px; background: #2a2a2a; }
 	.palette button { padding: 6px 12px; background: #444; color: white; border: 1px solid #666; border-radius: 4px; cursor: pointer; font-family: monospace; }
 	.palette button.active { background: #0078d4; border-color: #0078d4; }
-	.entity-config { padding: 8px; background: #2a2a2a; display: flex; gap: 12px; align-items: center; }
-	.entity-config label { display: flex; gap: 4px; align-items: center; }
-	.entity-config input, .entity-config select { width: 60px; padding: 2px; font-family: monospace; }
+	.entity-config-floating { position: absolute; top: 90px; left: 8px; right: 8px; z-index: 10; padding: 8px 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+	.entity-config-floating label { display: flex; gap: 4px; align-items: center; }
+	.entity-config-floating input, .entity-config-floating select { width: 60px; padding: 2px; font-family: monospace; }
 	.toast-container { position: fixed; top: 16px; right: 16px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; max-width: 360px; }
 	.toast { padding: 10px 16px; border-radius: 6px; font-family: monospace; font-size: 13px; color: white; animation: toast-in 0.2s ease-out; }
 	.toast-error { background: #c62828; }
