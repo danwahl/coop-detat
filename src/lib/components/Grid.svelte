@@ -95,35 +95,38 @@
 	<text
 		data-testid="exit-marker"
 		x={state.level.exit.x * cellSize + cellSize / 2}
-		y={state.level.exit.y * cellSize + cellSize / 2 + cellSize * 0.15}
+		y={state.level.exit.y * cellSize + cellSize / 2}
 		text-anchor="middle"
+		dominant-baseline="central"
 		font-size={cellSize * 0.7}
 		style="pointer-events: none"
 	>&#x1F6AA;</text>
 
-	<!-- Snake body -->
+	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
 		{#if i > 0}
 			<text
 				data-testid="snake-segment-{i}"
 				x={seg.x * cellSize + cellSize / 2}
-				y={seg.y * cellSize + cellSize / 2 + cellSize * 0.15}
+				y={seg.y * cellSize + cellSize / 2}
 				text-anchor="middle"
+				dominant-baseline="central"
 				font-size={cellSize * 0.6}
 				style="pointer-events: none"
-			>&#x1F95A;</text>
+			>&#x1F414;</text>
 		{/if}
 	{/each}
 
-	<!-- Player head -->
+	<!-- Player head (ninja) -->
 	<text
 		data-testid="player-head"
 		x={state.playerPos.x * cellSize + cellSize / 2}
-		y={state.playerPos.y * cellSize + cellSize / 2 + cellSize * 0.15}
+		y={state.playerPos.y * cellSize + cellSize / 2}
 		text-anchor="middle"
+		dominant-baseline="central"
 		font-size={cellSize * 0.7}
 		style="pointer-events: none"
-	>&#x1F414;</text>
+	>&#x1F977;</text>
 
 	<!-- Guards -->
 	{#each state.guards as guard}
@@ -131,8 +134,9 @@
 		<text
 			data-testid="guard-{guard.id}"
 			x={gp.x * cellSize + cellSize / 2}
-			y={gp.y * cellSize + cellSize / 2 + cellSize * 0.15}
+			y={gp.y * cellSize + cellSize / 2}
 			text-anchor="middle"
+			dominant-baseline="central"
 			font-size={cellSize * 0.7}
 			style="pointer-events: none"
 		>&#x1F46E;</text>
@@ -143,8 +147,9 @@
 		<text
 			data-testid="camera-{camera.id}"
 			x={camera.pos.x * cellSize + cellSize / 2}
-			y={camera.pos.y * cellSize + cellSize / 2 + cellSize * 0.15}
+			y={camera.pos.y * cellSize + cellSize / 2}
 			text-anchor="middle"
+			dominant-baseline="central"
 			font-size={cellSize * 0.7}
 			style="pointer-events: none"
 		>&#x1F4F7;</text>
@@ -156,8 +161,9 @@
 			{#if cell === 'cage' && !collectedSet.has(`${cx},${cy}`)}
 				<text
 					x={cx * cellSize + cellSize / 2}
-					y={cy * cellSize + cellSize / 2 + 5}
+					y={cy * cellSize + cellSize / 2}
 					text-anchor="middle"
+					dominant-baseline="central"
 					font-size={cellSize * 0.5}
 					style="pointer-events: none"
 				>&#x1F414;</text>
