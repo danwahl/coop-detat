@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GameState, Position, Direction } from '$lib/engine/types.js';
+	import type { GameState, Position } from '$lib/engine/types.js';
 	import { getVisibleCells } from '$lib/engine/detection.js';
 
 	interface Props {
@@ -38,20 +38,6 @@
 	});
 
 	let collectedSet = $derived(new Set(state.collectedCages.map((p: Position) => `${p.x},${p.y}`)));
-
-	const DIRECTION_ARROWS: Record<Direction, string> = {
-		up: '0,-5 -3,3 3,3',
-		down: '0,5 -3,-3 3,-3',
-		left: '-5,0 3,-3 3,3',
-		right: '5,0 -3,-3 -3,3'
-	};
-
-	const ARROW_OFFSET: Record<Direction, { dx: number; dy: number }> = {
-		up: { dx: 0, dy: -0.35 },
-		down: { dx: 0, dy: 0.35 },
-		left: { dx: -0.35, dy: 0 },
-		right: { dx: 0.35, dy: 0 }
-	};
 
 	function guardPos(guard: { path: Position[]; pathIndex: number }): Position {
 		return guard.path[guard.pathIndex];
@@ -189,7 +175,6 @@
 	<!-- Guards -->
 	{#each state.guards as guard}
 		{@const gp = guardPos(guard)}
-		{@const ao = ARROW_OFFSET[guard.facing]}
 		<text
 			data-testid="guard-{guard.id}"
 			x={gp.x * cellSize + cellSize / 2}
@@ -199,19 +184,10 @@
 			font-size={cellSize * 0.7}
 			style="pointer-events: none"
 		>&#x1F46E;</text>
-		<polygon
-			points={DIRECTION_ARROWS[guard.facing]}
-			transform="translate({gp.x * cellSize + cellSize / 2 + ao.dx * cellSize}, {gp.y * cellSize + cellSize / 2 + ao.dy * cellSize}) scale(0.6)"
-			fill="white"
-			stroke="#333"
-			stroke-width="0.5"
-		/>
 	{/each}
 
 	<!-- Cameras -->
 	{#each state.cameras as camera}
-		{@const facing = camera.directions[camera.dirIndex]}
-		{@const ao = ARROW_OFFSET[facing]}
 		<text
 			data-testid="camera-{camera.id}"
 			x={camera.pos.x * cellSize + cellSize / 2}
@@ -221,13 +197,6 @@
 			font-size={cellSize * 0.7}
 			style="pointer-events: none"
 		>&#x1F4F7;</text>
-		<polygon
-			points={DIRECTION_ARROWS[facing]}
-			transform="translate({camera.pos.x * cellSize + cellSize / 2 + ao.dx * cellSize}, {camera.pos.y * cellSize + cellSize / 2 + ao.dy * cellSize}) scale(0.6)"
-			fill="white"
-			stroke="#333"
-			stroke-width="0.5"
-		/>
 	{/each}
 
 	<!-- Cage chickens (uncollected) -->
