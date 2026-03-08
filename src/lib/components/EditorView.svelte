@@ -2,7 +2,8 @@
 	import {
 		initEditor, clickCell, setTool, exportLevel, importLevel,
 		validate, resizeGrid, getEditorState, setLevelName, setLevelId,
-		setGuardMode, setGuardVision, finalizeGuardPath
+		setGuardMode, setGuardVision, finalizeGuardPath,
+		setCameraDirection, setCameraMode, setCameraVision, toggleCameraPanDir
 	} from '$lib/stores/editorStore.svelte.js';
 	import { createGameState } from '$lib/engine/state.js';
 	import { solve } from '$lib/engine/solver.js';
@@ -147,6 +148,37 @@
 				<label>Vision: <input type="number" value={editorState.editingGuardVision} min="1" max="10" oninput={(e) => setGuardVision(+e.currentTarget.value)} /></label>
 				<span>Path: {editorState.guardPathInProgress.length} points</span>
 				<button onclick={finalizeGuardPath}>Finish Guard</button>
+			</div>
+		{/if}
+
+		{#if editorState.currentTool === 'camera'}
+			<div class="entity-config">
+				<label>Mode:
+					<select value={editorState.editingCameraMode} onchange={(e) => setCameraMode(e.currentTarget.value as 'fixed' | 'pace' | 'loop')}>
+						<option value="fixed">Fixed</option>
+						<option value="pace">Pace</option>
+						<option value="loop">Loop</option>
+					</select>
+				</label>
+				{#if editorState.editingCameraMode === 'fixed'}
+					<label>Direction:
+						<select value={editorState.editingCameraDir[0] ?? 'right'} onchange={(e) => setCameraDirection(e.currentTarget.value as 'up' | 'right' | 'down' | 'left')}>
+							<option value="up">Up</option>
+							<option value="right">Right</option>
+							<option value="down">Down</option>
+							<option value="left">Left</option>
+						</select>
+					</label>
+				{:else}
+					<span>Dirs:</span>
+					{#each ['up', 'right', 'down', 'left'] as dir}
+						<button
+							class:active={editorState.editingCameraDir.includes(dir)}
+							onclick={() => toggleCameraPanDir(dir)}
+						>{dir}</button>
+					{/each}
+				{/if}
+				<label>Vision: <input type="number" value={editorState.editingCameraVision} min="1" max="10" oninput={(e) => setCameraVision(+e.currentTarget.value)} /></label>
 			</div>
 		{/if}
 

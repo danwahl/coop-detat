@@ -59,18 +59,18 @@ export function clickCell(x: number, y: number) {
 		return;
 	}
 	if (currentTool === 'camera') {
-		// Place camera at clicked position, then set directions via palette
-		editingCameraDir = ['right'];
+		const dirs: Direction[] = editingCameraMode === 'fixed'
+			? [editingCameraDir.length > 0 ? editingCameraDir[0] : 'right']
+			: editingCameraDir.length > 0 ? [...editingCameraDir] : ['right'];
 		cameras = [...cameras, {
 			id: `cam-${Date.now()}`,
 			pos: { x, y },
-			directions: ['right'],
+			directions: dirs,
 			dirIndex: 0,
 			dirDirection: 1 as 1 | -1,
-			patrolMode: 'fixed',
+			patrolMode: editingCameraMode,
 			visionRange: editingCameraVision
 		}];
-		currentTool = 'empty';
 		return;
 	}
 	if (currentTool === 'eraser') {
@@ -156,7 +156,8 @@ export function getEditorState() {
 	return {
 		width, height, grid, playerStart, exit, guards, cameras,
 		levelName, levelId, currentTool, guardPathInProgress,
-		editingGuardMode, editingGuardVision, editingCameraVision
+		editingGuardMode, editingGuardVision,
+		editingCameraDir, editingCameraMode, editingCameraVision
 	};
 }
 
@@ -165,4 +166,18 @@ export function setLevelId(id: string) { levelId = id; }
 export function setGuardMode(mode: 'pace' | 'loop') { editingGuardMode = mode; }
 export function setGuardVision(v: number) { editingGuardVision = v; }
 export function setCameraVision(v: number) { editingCameraVision = v; }
+export function setCameraDirection(dir: Direction) { editingCameraDir = [dir]; }
+export function setCameraMode(mode: 'fixed' | 'pace' | 'loop') {
+	editingCameraMode = mode;
+	if (mode === 'fixed' && editingCameraDir.length > 1) {
+		editingCameraDir = [editingCameraDir[0]];
+	}
+}
+export function toggleCameraPanDir(dir: Direction) {
+	if (editingCameraDir.includes(dir)) {
+		editingCameraDir = editingCameraDir.filter(d => d !== dir);
+	} else {
+		editingCameraDir = [...editingCameraDir, dir];
+	}
+}
 export function finalizeGuardPath() { finalizeGuard(); }
