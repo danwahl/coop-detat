@@ -1,1 +1,1 @@
-export const ssr = false;
+// Layout handles ssr and prerender config
