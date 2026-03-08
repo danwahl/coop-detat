@@ -85,6 +85,20 @@
 				stroke-width="0.5"
 				onclick={() => onCellClick?.(gx, gy)}
 			/>
+			{#if cell === 'cage'}
+				{#each [0.25, 0.5, 0.75] as ratio}
+					<line
+						x1={gx * cellSize + cellSize * ratio}
+						y1={gy * cellSize + 2}
+						x2={gx * cellSize + cellSize * ratio}
+						y2={(gy + 1) * cellSize - 2}
+						stroke={isCageCollected ? 'rgba(60, 40, 10, 0.2)' : 'rgba(60, 40, 10, 0.5)'}
+						stroke-width="2"
+						stroke-linecap="round"
+						style="pointer-events: none"
+					/>
+				{/each}
+			{/if}
 		{/each}
 	{/each}
 
