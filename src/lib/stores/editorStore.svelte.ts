@@ -1,4 +1,5 @@
 import type { CellType, LevelDef, Guard, Camera, Direction } from '$lib/engine/types.js';
+import { expandPath } from '$lib/engine/path.js';
 
 export type EditorTool = 'empty' | 'wall' | 'cage' | 'exit' | 'playerStart' | 'guard' | 'camera' | 'eraser';
 
@@ -140,6 +141,29 @@ export function validate(): string[] {
 		errors.push('Player start must be on an empty cell');
 	if (grid[exit.y]?.[exit.x] !== 'empty')
 		errors.push('Exit must be on an empty cell');
+	for (const guard of guards) {
+		if (guard.patrolMode === 'loop' && guard.path.length >= 2) {
+			const last = guard.path[guard.path.length - 1];
+			const first = guard.path[0];
+			if (last.x !== first.x && last.y !== first.y) {
+				errors.push(`Loop guard "${guard.id}" last waypoint doesn't connect back to first (must be axis-aligned)`);
+			}
+		}
+		try {
+			const expanded = expandPath(guard.path, guard.patrolMode === 'loop');
+			for (const pos of expanded) {
+				if (pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height) {
+					errors.push(`Guard "${guard.id}" path goes out of bounds at (${pos.x},${pos.y})`);
+					break;
+				} else if (grid[pos.y][pos.x] === 'wall' || grid[pos.y][pos.x] === 'cage') {
+					errors.push(`Guard "${guard.id}" path goes through ${grid[pos.y][pos.x]} at (${pos.x},${pos.y})`);
+					break;
+				}
+			}
+		} catch (e) {
+			errors.push(`Guard "${guard.id}" has invalid path: ${(e as Error).message}`);
+		}
+	}
 	return errors;
 }
 

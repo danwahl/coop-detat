@@ -1,8 +1,6 @@
 import type { Position } from './types.js';
 
-export function expandPath(waypoints: Position[]): Position[] {
-	if (waypoints.length <= 1) return [...waypoints];
-
+function expandSegments(waypoints: Position[]): Position[] {
 	const result: Position[] = [{ ...waypoints[0] }];
 
 	for (let i = 1; i < waypoints.length; i++) {
@@ -26,6 +24,26 @@ export function expandPath(waypoints: Position[]): Position[] {
 			cy += dy;
 		}
 		result.push({ x: to.x, y: to.y });
+	}
+
+	return result;
+}
+
+export function expandPath(waypoints: Position[], loop: boolean = false): Position[] {
+	if (waypoints.length <= 1) return [...waypoints];
+
+	const result = expandSegments(waypoints);
+
+	if (loop && waypoints.length >= 2) {
+		const last = waypoints[waypoints.length - 1];
+		const first = waypoints[0];
+		if (last.x !== first.x || last.y !== first.y) {
+			const closing = expandSegments([last, first]);
+			// Skip first (already in result) and last (loop wrap handles it)
+			for (let i = 1; i < closing.length - 1; i++) {
+				result.push(closing[i]);
+			}
+		}
 	}
 
 	return result;

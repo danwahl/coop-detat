@@ -8,7 +8,7 @@ function deepClone<T>(obj: T): T {
 export function createGameState(level: LevelDef): GameState {
 	const guards = deepClone(level.guards).map((g) => ({
 		...g,
-		path: expandPath(g.path)
+		path: expandPath(g.path, g.patrolMode === 'loop')
 	}));
 	return {
 		level: deepClone(level),
