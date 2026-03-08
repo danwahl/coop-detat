@@ -201,6 +201,7 @@
 	.toolbar { display: flex; gap: 8px; padding: 8px; background: #333; flex-wrap: wrap; align-items: center; }
 	.toolbar input { width: 80px; padding: 4px; font-family: monospace; }
 	.toolbar input[type="text"] { width: 120px; }
+	.toolbar input[type="text"]::placeholder { color: #888; font-style: italic; }
 	.palette { display: flex; gap: 4px; padding: 8px; background: #2a2a2a; }
 	.palette button { padding: 6px 12px; background: #444; color: white; border: 1px solid #666; border-radius: 4px; cursor: pointer; font-family: monospace; }
 	.palette button.active { background: #0078d4; border-color: #0078d4; }

@@ -28,8 +28,8 @@ export function initEditor(w: number = 10, h: number = 7) {
 	exit = { x: w - 2, y: h - 2 };
 	guards = [];
 	cameras = [];
-	levelName = 'Untitled';
-	levelId = 'untitled';
+	levelName = '';
+	levelId = '';
 	guardPathInProgress = [];
 	editingCameraDir = [];
 }
@@ -104,8 +104,8 @@ function finalizeCamera() {
 
 export function exportLevel(): LevelDef {
 	return {
-		id: levelId,
-		name: levelName,
+		id: levelId || `level-${Date.now()}`,
+		name: levelName || 'Untitled',
 		width,
 		height,
 		grid: grid.map(row => [...row]),
