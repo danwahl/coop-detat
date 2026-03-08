@@ -23,8 +23,8 @@
 		{/if}
 	</div>
 	<div class="hud-right">
-		<button data-testid="undo-button" onclick={onUndo}>Undo</button>
-		<button data-testid="restart-button" onclick={onRestart}>Restart</button>
+		<button data-testid="undo-button" onclick={onUndo}>Undo <kbd>Z</kbd></button>
+		<button data-testid="restart-button" onclick={onRestart}>Restart <kbd>R</kbd></button>
 	</div>
 </div>
 
@@ -72,6 +72,7 @@
 		border-radius: 4px;
 	}
 	button:hover { background: #777; }
+	kbd { font-size: 0.7em; padding: 1px 4px; background: rgba(255,255,255,0.15); border-radius: 3px; margin-left: 4px; font-family: monospace; }
 	.overlay {
 		position: fixed;
 		inset: 0;
@@ -80,8 +81,8 @@
 		justify-content: center;
 		z-index: 100;
 	}
-	.overlay.won { background: rgba(76, 175, 80, 0.85); }
-	.overlay.lost { background: rgba(244, 67, 54, 0.85); }
+	.overlay.won { background: rgba(76, 175, 80, 0.6); backdrop-filter: blur(2px); }
+	.overlay.lost { background: rgba(244, 67, 54, 0.6); backdrop-filter: blur(2px); }
 	.overlay-content {
 		text-align: center;
 		color: white;
