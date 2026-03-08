@@ -31,11 +31,13 @@ export function isDetected(state: GameState): boolean {
 
 	for (const guard of state.guards) {
 		const pos = guard.path[guard.pathIndex];
+		if (snakeSet.has(`${pos.x},${pos.y}`)) return true;
 		const visible = getVisibleCells(pos, guard.facing, guard.visionRange, state);
 		if (visible.some((v) => snakeSet.has(`${v.x},${v.y}`))) return true;
 	}
 
 	for (const camera of state.cameras) {
+		if (snakeSet.has(`${camera.pos.x},${camera.pos.y}`)) return true;
 		const facing = camera.directions[camera.dirIndex];
 		const visible = getVisibleCells(camera.pos, facing, camera.visionRange, state);
 		if (visible.some((v) => snakeSet.has(`${v.x},${v.y}`))) return true;

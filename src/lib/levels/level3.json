@@ -2,19 +2,21 @@
 	"id": "level3",
 	"name": "Timing",
 	"width": 9,
-	"height": 5,
+	"height": 7,
 	"grid": [
 		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "cage", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
 	],
-	"playerStart": { "x": 1, "y": 2 },
+	"playerStart": { "x": 1, "y": 3 },
 	"guards": [
 		{
 			"id": "guard1",
-			"path": [{ "x": 4, "y": 1 }, { "x": 4, "y": 3 }],
+			"path": [{ "x": 4, "y": 2 }, { "x": 4, "y": 4 }],
 			"pathIndex": 0,
 			"pathDirection": 1,
 			"patrolMode": "pace",
@@ -23,6 +25,6 @@
 		}
 	],
 	"cameras": [],
-	"exit": { "x": 7, "y": 2 },
-	"par": 8
+	"exit": { "x": 7, "y": 3 },
+	"par": 10
 }

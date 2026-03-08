@@ -115,6 +115,45 @@ describe('isDetected', () => {
 		expect(isDetected(state)).toBe(false); // player is to the left
 	});
 
+	it('detects player on guard own cell', () => {
+		const guard: Guard = {
+			id: 'g1', path: [{ x: 3, y: 5 }], pathIndex: 0, pathDirection: 1,
+			patrolMode: 'pace', facing: 'right', visionRange: 3
+		};
+		const level = makeLevel(10, 10);
+		level.guards = [guard];
+		const state = createGameState(level);
+		state.playerPos = { x: 3, y: 5 };
+		state.snake = [{ x: 3, y: 5 }];
+		expect(isDetected(state)).toBe(true);
+	});
+
+	it('detects snake tail on guard own cell', () => {
+		const guard: Guard = {
+			id: 'g1', path: [{ x: 3, y: 5 }], pathIndex: 0, pathDirection: 1,
+			patrolMode: 'pace', facing: 'right', visionRange: 3
+		};
+		const level = makeLevel(10, 10);
+		level.guards = [guard];
+		const state = createGameState(level);
+		state.playerPos = { x: 3, y: 3 };
+		state.snake = [{ x: 3, y: 3 }, { x: 3, y: 4 }, { x: 3, y: 5 }];
+		expect(isDetected(state)).toBe(true);
+	});
+
+	it('detects player on camera own cell', () => {
+		const camera: Camera = {
+			id: 'c1', pos: { x: 5, y: 3 }, directions: ['down'], dirIndex: 0,
+			dirDirection: 1, patrolMode: 'fixed', visionRange: 5
+		};
+		const level = makeLevel(10, 10);
+		level.cameras = [camera];
+		const state = createGameState(level);
+		state.playerPos = { x: 5, y: 3 };
+		state.snake = [{ x: 5, y: 3 }];
+		expect(isDetected(state)).toBe(true);
+	});
+
 	it('detects via camera', () => {
 		const camera: Camera = {
 			id: 'c1', pos: { x: 5, y: 0 }, directions: ['down'], dirIndex: 0,

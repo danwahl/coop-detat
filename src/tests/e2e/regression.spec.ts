@@ -18,11 +18,11 @@ test.describe('Golden Path Regression', () => {
 		expect(await getMoveCount(page)).toBe(7);
 	});
 
-	test('Level 3 golden path (par 8)', async ({ page }) => {
+	test('Level 3 golden path (par 10)', async ({ page }) => {
 		await openLevel(page, 'level3');
-		// Solver solution: up, right, right, right, right, right, right, down
-		await playSolution(page, ['up', 'right', 'right', 'right', 'right', 'right', 'right', 'down']);
+		// Solver solution: up, up, right, right, right, right, down, down, right, right
+		await playSolution(page, ['up', 'up', 'right', 'right', 'right', 'right', 'down', 'down', 'right', 'right']);
 		await expectStatus(page, 'won');
-		expect(await getMoveCount(page)).toBe(8);
+		expect(await getMoveCount(page)).toBe(10);
 	});
 });
