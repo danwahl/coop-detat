@@ -6,9 +6,10 @@
 		onUndo: () => void;
 		onRestart: () => void;
 		onBack: () => void;
+		onNextLevel?: () => void;
 	}
 
-	let { turnNumber, par, status, onUndo, onRestart, onBack }: Props = $props();
+	let { turnNumber, par, status, onUndo, onRestart, onBack, onNextLevel }: Props = $props();
 </script>
 
 <div class="hud" data-testid="hud">
@@ -35,6 +36,9 @@
 				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
 			{/if}
 			<button data-testid="overlay-restart-button" onclick={onRestart}>Restart</button>
+			{#if status === 'won' && onNextLevel}
+				<button data-testid="next-level-button" onclick={onNextLevel}>Next Level</button>
+			{/if}
 			<button data-testid="overlay-back-button" onclick={onBack}>Back</button>
 		</div>
 	</div>

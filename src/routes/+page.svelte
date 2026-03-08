@@ -6,12 +6,18 @@
 
 	let selectedLevel = $state<LevelDef | null>(null);
 	let showEditor = $state(false);
+
+	let nextLevel = $derived.by(() => {
+		if (!selectedLevel) return null;
+		const idx = levels.findIndex(l => l.id === selectedLevel!.id);
+		return idx >= 0 && idx < levels.length - 1 ? levels[idx + 1] : null;
+	});
 </script>
 
 {#if showEditor}
 	<EditorView onBack={() => (showEditor = false)} />
 {:else if selectedLevel}
-	<GameView level={selectedLevel} onBack={() => (selectedLevel = null)} />
+	<GameView level={selectedLevel} onBack={() => (selectedLevel = null)} onNextLevel={nextLevel ? () => (selectedLevel = nextLevel) : undefined} />
 {:else}
 	<div class="menu" data-testid="menu">
 		<h1>Coop D'etat</h1>

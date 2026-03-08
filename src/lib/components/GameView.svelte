@@ -8,11 +8,20 @@
 	interface Props {
 		level: LevelDef;
 		onBack: () => void;
+		onNextLevel?: () => void;
 	}
 
-	let { level, onBack }: Props = $props();
+	let { level, onBack, onNextLevel }: Props = $props();
 
 	initGame(level);
+
+	let prevLevel = level;
+	$effect(() => {
+		if (level !== prevLevel) {
+			prevLevel = level;
+			initGame(level);
+		}
+	});
 
 	let state = $derived(getState());
 
@@ -81,6 +90,7 @@
 		par={state.level.par}
 		status={state.status}
 		{onBack}
+		{onNextLevel}
 		onUndo={undo}
 		onRestart={restart}
 	/>
