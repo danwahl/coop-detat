@@ -54,6 +54,16 @@ describe('basic movement', () => {
 		expect(canMove(state, 'right')).toBe(false);
 	});
 
+	it('rejects move into camera', () => {
+		const level = makeLevelGrid(5, 5);
+		level.cameras = [{
+			id: 'c1', pos: { x: 3, y: 2 }, directions: ['left'], dirIndex: 0,
+			dirDirection: 1, patrolMode: 'fixed', visionRange: 3
+		}];
+		const state = createGameState(level);
+		expect(canMove(state, 'right')).toBe(false);
+	});
+
 	it('does not modify original state', () => {
 		const level = makeLevelGrid(5, 5);
 		const state = createGameState(level);

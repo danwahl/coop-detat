@@ -24,6 +24,7 @@ function getCell(state: GameState, pos: Position): CellType | null {
 function isBlocked(state: GameState, pos: Position): boolean {
 	const cell = getCell(state, pos);
 	if (cell === null || cell === 'wall' || cell === 'cage') return true;
+	if (state.cameras.some(c => c.pos.x === pos.x && c.pos.y === pos.y)) return true;
 	return false;
 }
 
