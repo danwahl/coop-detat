@@ -149,6 +149,7 @@
 	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
 		{#if i > 0}
+			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 5 : -5}
 			<text
 				data-testid="snake-segment-{i}"
 				x={seg.x * cellSize + cellSize / 2}
@@ -157,6 +158,7 @@
 				dominant-baseline="central"
 				font-size={cellSize * 0.6}
 				style="pointer-events: none"
+				transform="rotate({tilt}, {seg.x * cellSize + cellSize / 2}, {seg.y * cellSize + cellSize / 2})"
 			>&#x1F414;</text>
 		{/if}
 	{/each}
