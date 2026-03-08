@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GameState, Direction, Position } from '$lib/engine/types.js';
+	import type { GameState, Position } from '$lib/engine/types.js';
 	import { getVisibleCells } from '$lib/engine/detection.js';
 
 	interface Props {
@@ -37,13 +37,6 @@
 	});
 
 	let collectedSet = $derived(new Set(state.collectedCages.map((p: Position) => `${p.x},${p.y}`)));
-
-	const DIRECTION_ARROWS: Record<Direction, string> = {
-		up: '0,-6 -4,4 4,4',
-		down: '0,6 -4,-4 4,-4',
-		left: '-6,0 4,-4 4,4',
-		right: '6,0 -4,-4 -4,4'
-	};
 
 	function guardPos(guard: { path: Position[]; pathIndex: number }): Position {
 		return guard.path[guard.pathIndex];
@@ -99,76 +92,62 @@
 	{/each}
 
 	<!-- Exit marker -->
-	<rect
+	<text
 		data-testid="exit-marker"
-		x={state.level.exit.x * cellSize + 4}
-		y={state.level.exit.y * cellSize + 4}
-		width={cellSize - 8}
-		height={cellSize - 8}
-		fill="none"
-		stroke="#2E7D32"
-		stroke-width="2"
-		rx="4"
-	/>
+		x={state.level.exit.x * cellSize + cellSize / 2}
+		y={state.level.exit.y * cellSize + cellSize / 2 + cellSize * 0.15}
+		text-anchor="middle"
+		font-size={cellSize * 0.7}
+		style="pointer-events: none"
+	>&#x1F6AA;</text>
 
 	<!-- Snake body -->
 	{#each state.snake as seg, i}
 		{#if i > 0}
-			<circle
+			<text
 				data-testid="snake-segment-{i}"
-				cx={seg.x * cellSize + cellSize / 2}
-				cy={seg.y * cellSize + cellSize / 2}
-				r={cellSize / 3}
-				fill="#FFD54F"
-				stroke="#F9A825"
-				stroke-width="1.5"
-			/>
+				x={seg.x * cellSize + cellSize / 2}
+				y={seg.y * cellSize + cellSize / 2 + cellSize * 0.15}
+				text-anchor="middle"
+				font-size={cellSize * 0.6}
+				style="pointer-events: none"
+			>&#x1F95A;</text>
 		{/if}
 	{/each}
 
 	<!-- Player head -->
-	<circle
+	<text
 		data-testid="player-head"
-		cx={state.playerPos.x * cellSize + cellSize / 2}
-		cy={state.playerPos.y * cellSize + cellSize / 2}
-		r={cellSize / 2.5}
-		fill="#FF7043"
-		stroke="#D84315"
-		stroke-width="2"
-	/>
+		x={state.playerPos.x * cellSize + cellSize / 2}
+		y={state.playerPos.y * cellSize + cellSize / 2 + cellSize * 0.15}
+		text-anchor="middle"
+		font-size={cellSize * 0.7}
+		style="pointer-events: none"
+	>&#x1F414;</text>
 
 	<!-- Guards -->
 	{#each state.guards as guard}
 		{@const gp = guardPos(guard)}
-		<polygon
+		<text
 			data-testid="guard-{guard.id}"
-			points={DIRECTION_ARROWS[guard.facing]}
-			transform="translate({gp.x * cellSize + cellSize / 2}, {gp.y * cellSize + cellSize / 2})"
-			fill="#2196F3"
-			stroke="#0D47A1"
-			stroke-width="1"
-		/>
+			x={gp.x * cellSize + cellSize / 2}
+			y={gp.y * cellSize + cellSize / 2 + cellSize * 0.15}
+			text-anchor="middle"
+			font-size={cellSize * 0.7}
+			style="pointer-events: none"
+		>&#x1F46E;</text>
 	{/each}
 
 	<!-- Cameras -->
 	{#each state.cameras as camera}
-		{@const facing = camera.directions[camera.dirIndex]}
-		<rect
+		<text
 			data-testid="camera-{camera.id}"
-			x={camera.pos.x * cellSize + 6}
-			y={camera.pos.y * cellSize + 6}
-			width={cellSize - 12}
-			height={cellSize - 12}
-			fill="#9C27B0"
-			stroke="#4A148C"
-			stroke-width="1"
-			rx="2"
-		/>
-		<polygon
-			points={DIRECTION_ARROWS[facing]}
-			transform="translate({camera.pos.x * cellSize + cellSize / 2}, {camera.pos.y * cellSize + cellSize / 2}) scale(0.7)"
-			fill="white"
-		/>
+			x={camera.pos.x * cellSize + cellSize / 2}
+			y={camera.pos.y * cellSize + cellSize / 2 + cellSize * 0.15}
+			text-anchor="middle"
+			font-size={cellSize * 0.7}
+			style="pointer-events: none"
+		>&#x1F4F7;</text>
 	{/each}
 
 	<!-- Cage chickens (uncollected) -->

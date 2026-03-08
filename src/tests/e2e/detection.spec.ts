@@ -27,10 +27,10 @@ test.describe('Detection & Enemies', () => {
 	test('guard moves each turn on Level 3', async ({ page }) => {
 		await openLevel(page, 'level3');
 		const guard = page.getByTestId('guard-guard1');
-		const transform1 = await guard.getAttribute('transform');
+		const pos1 = `${await guard.getAttribute('x')},${await guard.getAttribute('y')}`;
 		await pressDirection(page, 'down'); // valid move, guard ticks
-		const transform2 = await guard.getAttribute('transform');
-		expect(transform1).not.toBe(transform2);
+		const pos2 = `${await guard.getAttribute('x')},${await guard.getAttribute('y')}`;
+		expect(pos1).not.toBe(pos2);
 	});
 
 	test('can beat Level 2', async ({ page }) => {
