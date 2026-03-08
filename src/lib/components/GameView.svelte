@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Direction, LevelDef } from '$lib/engine/types.js';
 	import { initGame, move, undo, restart, getState } from '$lib/stores/gameStore.svelte.js';
+	import { saveProgress } from '$lib/stores/progress.js';
 	import Grid from './Grid.svelte';
 	import HUD from './HUD.svelte';
 	import { onMount } from 'svelte';
@@ -24,6 +25,12 @@
 	});
 
 	let state = $derived(getState());
+
+	$effect(() => {
+		if (state.status === 'won') {
+			saveProgress(state.level.id, state.turnNumber);
+		}
+	});
 
 	function handleKey(e: KeyboardEvent) {
 		const keyMap: Record<string, Direction> = {

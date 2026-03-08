@@ -3,9 +3,15 @@
 	import { levels } from '$lib/levels/index.js';
 	import GameView from '$lib/components/GameView.svelte';
 	import EditorView from '$lib/components/EditorView.svelte';
+	import { loadProgress, resetProgress } from '$lib/stores/progress.js';
 
 	let selectedLevel = $state<LevelDef | null>(null);
 	let showEditor = $state(false);
+	let progress = $state(loadProgress());
+
+	function refreshProgress() {
+		progress = loadProgress();
+	}
 
 	let nextLevel = $derived.by(() => {
 		if (!selectedLevel) return null;
@@ -17,20 +23,27 @@
 {#if showEditor}
 	<EditorView onBack={() => (showEditor = false)} />
 {:else if selectedLevel}
-	<GameView level={selectedLevel} onBack={() => (selectedLevel = null)} onNextLevel={nextLevel ? () => (selectedLevel = nextLevel) : undefined} />
+	<GameView level={selectedLevel} onBack={() => { selectedLevel = null; refreshProgress(); }} onNextLevel={nextLevel ? () => { selectedLevel = nextLevel; refreshProgress(); } : undefined} />
 {:else}
 	<div class="menu" data-testid="menu">
 		<h1>Coop D'etat</h1>
 		<p>Rescue the chickens.</p>
 		<div class="level-list">
 			{#each levels as level}
+				{@const prog = progress[level.id]}
 				<button data-testid="level-button-{level.id}" onclick={() => (selectedLevel = level)}>
-					{level.name}
-					{#if level.par}<span class="par">Par: {level.par}</span>{/if}
+					<span>{#if prog?.solved}&#x2705; {/if}{level.name}</span>
+					<span class="par">
+						{#if prog?.bestMoves}Best: {prog.bestMoves}{/if}
+						{#if level.par}{prog?.bestMoves ? ' | ' : ''}Par: {level.par}{/if}
+					</span>
 				</button>
 			{/each}
 		</div>
 		<button class="editor-btn" data-testid="editor-button" onclick={() => (showEditor = true)}>Level Editor</button>
+		{#if Object.keys(progress).length > 0}
+			<button class="reset-btn" data-testid="reset-progress-button" onclick={() => { resetProgress(); refreshProgress(); }}>Reset Progress</button>
+		{/if}
 	</div>
 {/if}
 
@@ -82,4 +95,16 @@
 		cursor: pointer;
 	}
 	.editor-btn:hover { background: #666; }
+	.reset-btn {
+		margin-top: 16px;
+		padding: 8px 16px;
+		font-size: 0.85rem;
+		font-family: monospace;
+		background: #444;
+		color: #aaa;
+		border: 1px solid #666;
+		border-radius: 8px;
+		cursor: pointer;
+	}
+	.reset-btn:hover { background: #555; color: white; }
 </style>
