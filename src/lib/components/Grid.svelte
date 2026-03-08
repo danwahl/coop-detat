@@ -7,9 +7,10 @@
 		showVision?: boolean;
 		cellSize?: number;
 		onCellClick?: (x: number, y: number) => void;
+		editingPath?: Position[];
 	}
 
-	let { state, showVision = true, cellSize = 32, onCellClick }: Props = $props();
+	let { state, showVision = true, cellSize = 32, onCellClick, editingPath }: Props = $props();
 
 	const CELL_COLORS: Record<string, string> = {
 		empty: '#e8e0d4',
@@ -90,6 +91,29 @@
 			stroke-dasharray="4 4"
 		/>
 	{/each}
+
+	<!-- Editing path preview -->
+	{#if editingPath && editingPath.length > 0}
+		{#if editingPath.length > 1}
+			<polyline
+				points={editingPath.map(p => `${p.x * cellSize + cellSize / 2},${p.y * cellSize + cellSize / 2}`).join(' ')}
+				fill="none"
+				stroke="rgba(33, 150, 243, 0.6)"
+				stroke-width="3"
+				stroke-dasharray="6 3"
+			/>
+		{/if}
+		{#each editingPath as point, i}
+			<circle
+				cx={point.x * cellSize + cellSize / 2}
+				cy={point.y * cellSize + cellSize / 2}
+				r={cellSize / 6}
+				fill={i === 0 ? '#4CAF50' : '#2196F3'}
+				stroke="white"
+				stroke-width="1"
+			/>
+		{/each}
+	{/if}
 
 	<!-- Exit marker -->
 	<text

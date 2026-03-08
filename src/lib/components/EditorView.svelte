@@ -151,7 +151,7 @@
 		{/if}
 
 		<div class="grid-area">
-			<Grid state={previewState} showVision={false} onCellClick={clickCell} />
+			<Grid state={previewState} showVision={false} onCellClick={clickCell} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
 		</div>
 	</div>
 
