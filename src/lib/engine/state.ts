@@ -24,7 +24,17 @@ export function createGameState(level: LevelDef): GameState {
 }
 
 export function cloneState(state: GameState): GameState {
-	return deepClone(state);
+	return {
+		level: state.level,
+		playerPos: { ...state.playerPos },
+		snake: state.snake.map(p => ({ ...p })),
+		guards: state.guards.map(g => ({ ...g })),
+		cameras: state.cameras.map(c => ({ ...c })),
+		collectedCages: state.collectedCages.map(p => ({ ...p })),
+		pendingChicken: state.pendingChicken,
+		turnNumber: state.turnNumber,
+		status: state.status
+	};
 }
 
 export function hashState(state: GameState): string {

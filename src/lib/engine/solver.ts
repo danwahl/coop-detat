@@ -14,22 +14,37 @@ export function solve(level: LevelDef, maxDepth: number = 200): SolveResult | nu
 	const visited = new Set<string>();
 	visited.add(hashState(initial));
 
-	const queue: { state: GameState; moves: Direction[] }[] = [{ state: initial, moves: [] }];
+	// Parent-pointer BFS: store states and reconstruct path on win
+	const states: GameState[] = [initial];
+	const parents: number[] = [-1];
+	const dirs: Direction[] = ['up']; // placeholder for index 0
+	const depths: number[] = [0];
 
+	let head = 0;
 	let explored = 0;
 
-	while (queue.length > 0) {
-		const { state, moves } = queue.shift()!;
+	while (head < states.length) {
+		const state = states[head];
+		const depth = depths[head];
+		head++;
 		explored++;
 
-		if (moves.length >= maxDepth) continue;
+		if (depth >= maxDepth) continue;
 
 		for (const dir of DIRECTIONS) {
 			const next = tick(state, dir);
 			if (!next) continue;
 
 			if (next.status === 'won') {
-				return { solution: [...moves, dir], explored };
+				// Reconstruct path
+				const solution: Direction[] = [dir];
+				let idx = head - 1;
+				while (parents[idx] !== -1) {
+					solution.push(dirs[idx]);
+					idx = parents[idx];
+				}
+				solution.reverse();
+				return { solution, explored };
 			}
 
 			if (next.status === 'lost') continue;
@@ -38,7 +53,11 @@ export function solve(level: LevelDef, maxDepth: number = 200): SolveResult | nu
 			if (visited.has(hash)) continue;
 			visited.add(hash);
 
-			queue.push({ state: next, moves: [...moves, dir] });
+			const newIdx = states.length;
+			states.push(next);
+			parents.push(head - 1);
+			dirs.push(dir);
+			depths.push(depth + 1);
 		}
 	}
 
