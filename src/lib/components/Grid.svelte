@@ -42,6 +42,12 @@
 	function guardPos(guard: { path: Position[]; pathIndex: number }): Position {
 		return guard.path[guard.pathIndex];
 	}
+
+	function isPendingCage(x: number, y: number): boolean {
+		if (!state.pendingChicken || state.collectedCages.length === 0) return false;
+		const last = state.collectedCages[state.collectedCages.length - 1];
+		return last.x === x && last.y === y;
+	}
 </script>
 
 <svg
@@ -182,7 +188,7 @@
 	<!-- Cage chickens (uncollected) -->
 	{#each state.level.grid as row, cy}
 		{#each row as cell, cx}
-			{#if cell === 'cage' && !collectedSet.has(`${cx},${cy}`)}
+			{#if cell === 'cage' && (!collectedSet.has(`${cx},${cy}`) || isPendingCage(cx, cy))}
 				<text
 					x={cx * cellSize + cellSize / 2}
 					y={cy * cellSize + cellSize / 2}
