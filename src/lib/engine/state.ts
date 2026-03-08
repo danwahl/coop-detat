@@ -1,15 +1,20 @@
 import type { LevelDef, GameState } from './types.js';
+import { expandPath } from './path.js';
 
 function deepClone<T>(obj: T): T {
 	return JSON.parse(JSON.stringify(obj));
 }
 
 export function createGameState(level: LevelDef): GameState {
+	const guards = deepClone(level.guards).map((g) => ({
+		...g,
+		path: expandPath(g.path)
+	}));
 	return {
 		level: deepClone(level),
 		playerPos: { ...level.playerStart },
 		snake: [{ ...level.playerStart }],
-		guards: deepClone(level.guards),
+		guards,
 		cameras: deepClone(level.cameras),
 		collectedCages: [],
 		pendingChicken: false,
