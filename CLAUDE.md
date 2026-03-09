@@ -45,7 +45,7 @@ Built with SvelteKit + TypeScript + SVG. Deployed to Vercel as a static site.
 
 ```
 npm run dev          # dev server (port 5173)
-npm test             # unit tests (Vitest, 93+ tests)
+npm test             # unit tests (Vitest, 99+ tests)
 npm run test:e2e     # E2E tests (Playwright, requires `npx playwright install`)
 npm run check        # svelte-check (type checking + lint)
 npm run build        # production build (outputs to build/)
@@ -74,6 +74,9 @@ npm run build        # production build (outputs to build/)
 - The `levels.test.ts` suite verifies every level validates, is solvable, and
   has the correct par value. Add new levels → run tests.
 - Cages block movement but NOT line of sight (you can see through bars).
+- **Cage theft detection**: If an observer (guard/camera) can see a cage on two
+  consecutive turns and the chicken disappears between them, the player is caught.
+  Fixed cameras watching a cage make that chicken unfreeable from their direction.
 - Cameras are impassable (block movement like walls).
 
 ## Common Pitfalls
