@@ -46,11 +46,11 @@
 				{/if}
 				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
 			{/if}
-			<button data-testid="overlay-restart-button" onclick={onRestart}>Restart</button>
+			<button data-testid="overlay-restart-button" onclick={onRestart}>Restart <kbd>R</kbd></button>
 			{#if status === 'won' && onNextLevel}
-				<button data-testid="next-level-button" onclick={onNextLevel}>Next Level</button>
+				<button data-testid="next-level-button" onclick={onNextLevel}>Next Level <kbd>N</kbd></button>
 			{/if}
-			<button data-testid="overlay-back-button" onclick={onBack}>Back</button>
+			<button data-testid="overlay-back-button" onclick={onBack}>Back <kbd>B</kbd></button>
 		</div>
 	</div>
 {/if}

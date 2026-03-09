@@ -49,6 +49,14 @@
 			e.preventDefault();
 			restart();
 		}
+		if ((e.key === 'n' || e.key === 'N' || e.key === 'Enter') && state.status === 'won' && onNextLevel) {
+			e.preventDefault();
+			onNextLevel();
+		}
+		if ((e.key === 'Escape' || e.key === 'b' || e.key === 'B') && (state.status === 'won' || state.status === 'lost')) {
+			e.preventDefault();
+			onBack();
+		}
 	}
 
 	let touchStart: { x: number; y: number } | null = null;
