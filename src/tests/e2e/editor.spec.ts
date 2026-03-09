@@ -24,7 +24,7 @@ test.describe('Level Editor', () => {
 		await selectTool(page, 'cage');
 		await clickCell(page, 4, 3);
 		const fill = await page.getByTestId('cell-4-3').getAttribute('fill');
-		expect(fill).toBe('#8B6914');
+		expect(fill).toBe('#9e9e9e');
 	});
 
 	test('eraser tool removes content', async ({ page }) => {
