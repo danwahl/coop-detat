@@ -52,6 +52,9 @@ describe('win condition', () => {
 		expect(state.pendingChicken).toBe(true);
 
 		state = tick(state, 'right')!; // (3,1) = exit, all cages collected
+		expect(state.status).toBe('exiting');
+
+		state = tick(state, 'right')!; // drain chicken
 		expect(state.status).toBe('won');
 	});
 });
@@ -101,8 +104,11 @@ describe('full level playthrough', () => {
 		state = tick(state, 'right')!; // (2,1), snake grows to 2
 		state = tick(state, 'right')!; // (3,1)
 		state = tick(state, 'down')!;  // (3,2) = exit
+		expect(state.status).toBe('exiting');
+
+		state = tick(state, 'down')!;  // drain chicken
 		expect(state.status).toBe('won');
-		expect(state.turnNumber).toBe(4);
+		expect(state.turnNumber).toBe(5);
 	});
 });
 

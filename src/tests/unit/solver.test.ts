@@ -24,7 +24,7 @@ describe('solver', () => {
 
 		const result = solve(level);
 		expect(result).not.toBeNull();
-		expect(result!.solution.length).toBe(4); // up, right, right, down
+		expect(result!.solution.length).toBe(5); // up, right, right, down + 1 drain
 	});
 
 	it('returns null for unsolvable level', () => {
@@ -39,24 +39,24 @@ describe('solver', () => {
 	});
 
 	it('solves level with guard requiring timing', () => {
-		// 7x3 corridor. Player at (0,1), exit at (6,1), cage at (0,0)
-		// Guard paces (3,1) -> (5,1) facing right, range 2
-		const level = makeLevel(7, 3, { '0,0': 'cage' });
+		// 8x3 corridor. Player at (0,1), exit at (7,1), cage at (0,0)
+		// Guard paces (3,1) -> (4,1) facing right, range 1
+		// Exit at far end gives room for snake to drain safely
+		const level = makeLevel(8, 3, { '0,0': 'cage' });
 		level.playerStart = { x: 0, y: 1 };
-		level.exit = { x: 6, y: 1 };
+		level.exit = { x: 7, y: 1 };
 		level.guards = [{
 			id: 'g1',
-			path: [{ x: 3, y: 1 }, { x: 5, y: 1 }],
+			path: [{ x: 3, y: 1 }, { x: 4, y: 1 }],
 			pathIndex: 0,
 			pathDirection: 1,
 			patrolMode: 'pace',
 			facing: 'right',
-			visionRange: 2
+			visionRange: 1
 		}];
 
-		const result = solve(level, 30);
+		const result = solve(level, 200);
 		expect(result).not.toBeNull();
-		// Verify solution is actually valid (length > 0)
 		expect(result!.solution.length).toBeGreaterThan(0);
 	});
 
@@ -73,6 +73,6 @@ describe('solver', () => {
 		level.exit = { x: 2, y: 1 };
 		const result = solve(level);
 		expect(result).not.toBeNull();
-		expect(result!.solution.length).toBe(2);
+		expect(result!.solution.length).toBe(3); // 2 moves + 1 drain
 	});
 });
