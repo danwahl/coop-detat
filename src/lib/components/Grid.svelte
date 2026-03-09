@@ -55,11 +55,11 @@
 	viewBox="0 0 {state.level.width * cellSize} {state.level.height * cellSize}"
 	style="max-width: 100%; max-height: 100%; display: block;"
 >
-	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 	<!-- Grid cells -->
 	{#each state.level.grid as row, gy}
 		{#each row as cell, gx}
 			{@const isCageCollected = cell === 'cage' && collectedSet.has(`${gx},${gy}`)}
+			<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 			<rect
 				data-testid="cell-{gx}-{gy}"
 				x={gx * cellSize}

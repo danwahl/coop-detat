@@ -14,14 +14,12 @@
 
 	let { level, onBack, onNextLevel }: Props = $props();
 
+	// svelte-ignore state_referenced_locally
 	initGame(level);
 
-	let prevLevel = level;
 	$effect(() => {
-		if (level !== prevLevel) {
-			prevLevel = level;
-			initGame(level);
-		}
+		// Re-init when level changes (e.g., "Next Level" button)
+		initGame(level);
 	});
 
 	let state = $derived(getState());

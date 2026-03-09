@@ -7,7 +7,9 @@
 	} from '$lib/stores/editorStore.svelte.js';
 	import { createGameState } from '$lib/engine/state.js';
 	import { solve } from '$lib/engine/solver.js';
-	import type { LevelDef } from '$lib/engine/types.js';
+	import type { LevelDef, Direction } from '$lib/engine/types.js';
+
+	const ALL_DIRECTIONS: Direction[] = ['up', 'right', 'down', 'left'];
 	import Grid from './Grid.svelte';
 	import GameView from './GameView.svelte';
 
@@ -174,7 +176,7 @@
 					</label>
 				{:else}
 					<span>Dirs:</span>
-					{#each ['up', 'right', 'down', 'left'] as dir}
+					{#each ALL_DIRECTIONS as dir}
 						<button
 							class:active={editorState.editingCameraDir.includes(dir)}
 							onclick={() => toggleCameraPanDir(dir)}
