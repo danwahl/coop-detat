@@ -184,7 +184,7 @@
 			</div>
 		{/if}
 
-		<div class="grid-area">
+		<div class="grid-area" class:has-config-panel={editorState.currentTool === 'guard' || editorState.currentTool === 'camera'}>
 			<Grid state={previewState} showVision={true} onCellClick={clickCell} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
 		</div>
 	</div>
@@ -217,6 +217,7 @@
 	.toast-info { background: #1565c0; }
 	@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 	.grid-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden; }
+	.grid-area.has-config-panel { padding-top: 56px; }
 	button { padding: 4px 12px; cursor: pointer; border: 1px solid #666; background: #555; color: white; border-radius: 4px; font-family: monospace; }
 	button:hover { background: #777; }
 </style>
