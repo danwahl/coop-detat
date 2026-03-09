@@ -17,7 +17,7 @@
 
 <div class="hud" data-testid="hud">
 	<div class="hud-left">
-		<button data-testid="back-button" onclick={onBack}>Back</button>
+		<button data-testid="back-button" onclick={onBack}>Back <kbd>Esc</kbd></button>
 	</div>
 	<div class="hud-center">
 		<span data-testid="move-counter">Moves: {turnNumber}</span>

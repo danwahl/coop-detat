@@ -53,7 +53,11 @@
 			e.preventDefault();
 			onNextLevel();
 		}
-		if ((e.key === 'Escape' || e.key === 'b' || e.key === 'B') && (state.status === 'won' || state.status === 'lost')) {
+		if (e.key === 'Escape') {
+			e.preventDefault();
+			onBack();
+		}
+		if ((e.key === 'b' || e.key === 'B') && (state.status === 'won' || state.status === 'lost')) {
 			e.preventDefault();
 			onBack();
 		}
