@@ -265,12 +265,14 @@
 		/>
 	{/each}
 
-	<!-- Cage chickens + bars (bars render on top of chicken) -->
+	<!-- Cage chickens + bars -->
 	{#each state.level.grid as row, cy}
 		{#each row as cell, cx}
 			{#if cell === 'cage'}
 				{@const isCageCollected = collectedSet.has(`${cx},${cy}`)}
-				{#if !isCageCollected || isPendingCage(cx, cy)}
+				{@const isPending = isPendingCage(cx, cy)}
+				{#if !isCageCollected}
+					<!-- Caged: small chicken behind bars -->
 					<image
 						href={chickenUrl}
 						x={cx * cellSize + cellSize * 0.25}
@@ -279,19 +281,55 @@
 						height={cellSize * 0.5}
 						style="pointer-events: none"
 					/>
-				{/if}
-				{#each [0.25, 0.5, 0.75] as ratio}
-					<line
-						x1={cx * cellSize + cellSize * ratio}
-						y1={cy * cellSize + 2}
-						x2={cx * cellSize + cellSize * ratio}
-						y2={(cy + 1) * cellSize - 2}
-						stroke={isCageCollected ? 'rgba(50, 50, 50, 0.2)' : 'rgba(50, 50, 50, 0.6)'}
-						stroke-width="2"
-						stroke-linecap="round"
+					{#each [0.25, 0.5, 0.75] as ratio}
+						<line
+							x1={cx * cellSize + cellSize * ratio}
+							y1={cy * cellSize + 2}
+							x2={cx * cellSize + cellSize * ratio}
+							y2={(cy + 1) * cellSize - 2}
+							stroke="rgba(50, 50, 50, 0.6)"
+							stroke-width="2"
+							stroke-linecap="round"
+							style="pointer-events: none"
+						/>
+					{/each}
+				{:else if isPending}
+					<!-- Being rescued: faded bars, then full-size chicken on top -->
+					{#each [0.25, 0.5, 0.75] as ratio}
+						<line
+							x1={cx * cellSize + cellSize * ratio}
+							y1={cy * cellSize + 2}
+							x2={cx * cellSize + cellSize * ratio}
+							y2={(cy + 1) * cellSize - 2}
+							stroke="rgba(50, 50, 50, 0.2)"
+							stroke-width="2"
+							stroke-linecap="round"
+							style="pointer-events: none"
+						/>
+					{/each}
+					<image
+						href={chickenUrl}
+						x={cx * cellSize + cellSize * 0.2}
+						y={cy * cellSize + cellSize * 0.2}
+						width={cellSize * 0.6}
+						height={cellSize * 0.6}
 						style="pointer-events: none"
 					/>
-				{/each}
+				{:else}
+					<!-- Collected: empty cage with faded bars -->
+					{#each [0.25, 0.5, 0.75] as ratio}
+						<line
+							x1={cx * cellSize + cellSize * ratio}
+							y1={cy * cellSize + 2}
+							x2={cx * cellSize + cellSize * ratio}
+							y2={(cy + 1) * cellSize - 2}
+							stroke="rgba(50, 50, 50, 0.2)"
+							stroke-width="2"
+							stroke-linecap="round"
+							style="pointer-events: none"
+						/>
+					{/each}
+				{/if}
 			{/if}
 		{/each}
 	{/each}
