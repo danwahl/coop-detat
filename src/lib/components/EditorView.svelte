@@ -3,7 +3,8 @@
 		initEditor, clickCell, setTool, exportLevel, importLevel,
 		validate, resizeGrid, getEditorState, setLevelName, setLevelId,
 		setGuardMode, setGuardVision, finalizeGuardPath,
-		setCameraDirection, setCameraMode, setCameraVision, toggleCameraPanDir
+		setCameraDirection, setCameraMode, setCameraVision, toggleCameraPanDir,
+		isPaintable, paintCell
 	} from '$lib/stores/editorStore.svelte.js';
 	import { createGameState } from '$lib/engine/state.js';
 	import { solve } from '$lib/engine/solver.js';
@@ -98,6 +99,25 @@
 		testPlayLevel = exportLevel();
 	}
 
+	let dragging = $state(false);
+
+	function handleCellDown(x: number, y: number) {
+		if (isPaintable()) {
+			dragging = true;
+			paintCell(x, y);
+		}
+	}
+
+	function handleCellOver(x: number, y: number) {
+		if (dragging) {
+			paintCell(x, y);
+		}
+	}
+
+	function handlePointerUp() {
+		dragging = false;
+	}
+
 	type EditorTool = 'empty' | 'wall' | 'cage' | 'exit' | 'playerStart' | 'guard' | 'camera' | 'eraser';
 
 	const tools: { tool: EditorTool; label: string }[] = [
@@ -115,7 +135,8 @@
 {#if testPlayLevel}
 	<GameView level={testPlayLevel} onBack={() => (testPlayLevel = null)} />
 {:else}
-	<div class="editor" data-testid="editor-container">
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div class="editor" data-testid="editor-container" onpointerup={handlePointerUp}>
 		<div class="toolbar">
 			<button data-testid="editor-back-button" onclick={onBack}>Back</button>
 			<input data-testid="level-name-input" type="text" value={editorState.levelName} oninput={(e) => setLevelName(e.currentTarget.value)} placeholder="Level name" />
@@ -185,7 +206,7 @@
 		{/if}
 
 		<div class="grid-area" class:has-config-panel={editorState.currentTool === 'guard' || editorState.currentTool === 'camera'}>
-			<Grid state={previewState} showVision={true} onCellClick={clickCell} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
+			<Grid state={previewState} showVision={true} onCellClick={clickCell} onCellDown={handleCellDown} onCellOver={handleCellOver} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
 		</div>
 	</div>
 
@@ -216,7 +237,7 @@
 	.toast-success { background: #2e7d32; }
 	.toast-info { background: #1565c0; }
 	@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-	.grid-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden; }
+	.grid-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden; touch-action: none; }
 	.grid-area.has-config-panel { padding-top: 56px; }
 	button { padding: 4px 12px; cursor: pointer; border: 1px solid #666; background: #555; color: white; border-radius: 4px; font-family: monospace; }
 	button:hover { background: #777; }

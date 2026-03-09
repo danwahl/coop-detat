@@ -7,10 +7,12 @@
 		showVision?: boolean;
 		cellSize?: number;
 		onCellClick?: (x: number, y: number) => void;
+		onCellDown?: (x: number, y: number) => void;
+		onCellOver?: (x: number, y: number) => void;
 		editingPath?: Position[];
 	}
 
-	let { state, showVision = true, cellSize = 32, onCellClick, editingPath }: Props = $props();
+	let { state, showVision = true, cellSize = 32, onCellClick, onCellDown, onCellOver, editingPath }: Props = $props();
 
 	const CELL_COLORS: Record<string, string> = {
 		empty: '#e8e0d4',
@@ -70,6 +72,8 @@
 				stroke="#ccc"
 				stroke-width="0.5"
 				onclick={() => onCellClick?.(gx, gy)}
+				onpointerdown={() => onCellDown?.(gx, gy)}
+				onpointerover={() => onCellOver?.(gx, gy)}
 			/>
 			{#if cell === 'cage'}
 				{#each [0.25, 0.5, 0.75] as ratio}

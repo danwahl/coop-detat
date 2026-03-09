@@ -205,3 +205,18 @@ export function toggleCameraPanDir(dir: Direction) {
 	}
 }
 export function finalizeGuardPath() { finalizeGuard(); }
+
+const PAINTABLE_TOOLS: Set<EditorTool> = new Set(['wall', 'cage', 'empty', 'eraser']);
+
+export function isPaintable(): boolean {
+	return PAINTABLE_TOOLS.has(currentTool);
+}
+
+export function paintCell(x: number, y: number) {
+	if (!PAINTABLE_TOOLS.has(currentTool)) return;
+	if (currentTool === 'eraser') {
+		grid[y][x] = 'empty';
+	} else {
+		grid[y][x] = currentTool as CellType;
+	}
+}
