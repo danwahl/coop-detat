@@ -26,6 +26,47 @@ export function getVisibleCells(
 	return visible;
 }
 
+export function isCageTheftDetected(prevState: GameState, nextState: GameState): boolean {
+	const prevCollected = new Set(
+		prevState.collectedCages.map(p => `${p.x},${p.y}`)
+	);
+	const newlyCollected = nextState.collectedCages.filter(
+		p => !prevCollected.has(`${p.x},${p.y}`)
+	);
+
+	if (newlyCollected.length === 0) return false;
+
+	for (const cage of newlyCollected) {
+		for (let i = 0; i < prevState.guards.length; i++) {
+			const prevGuard = prevState.guards[i];
+			const nextGuard = nextState.guards[i];
+
+			const prevPos = prevGuard.path[prevGuard.pathIndex];
+			const prevVisible = getVisibleCells(prevPos, prevGuard.facing, prevGuard.visionRange, prevState);
+			if (!prevVisible.some(v => v.x === cage.x && v.y === cage.y)) continue;
+
+			const nextPos = nextGuard.path[nextGuard.pathIndex];
+			const nextVisible = getVisibleCells(nextPos, nextGuard.facing, nextGuard.visionRange, nextState);
+			if (nextVisible.some(v => v.x === cage.x && v.y === cage.y)) return true;
+		}
+
+		for (let i = 0; i < prevState.cameras.length; i++) {
+			const prevCam = prevState.cameras[i];
+			const nextCam = nextState.cameras[i];
+
+			const prevFacing = prevCam.directions[prevCam.dirIndex];
+			const prevVisible = getVisibleCells(prevCam.pos, prevFacing, prevCam.visionRange, prevState);
+			if (!prevVisible.some(v => v.x === cage.x && v.y === cage.y)) continue;
+
+			const nextFacing = nextCam.directions[nextCam.dirIndex];
+			const nextVisible = getVisibleCells(nextCam.pos, nextFacing, nextCam.visionRange, nextState);
+			if (nextVisible.some(v => v.x === cage.x && v.y === cage.y)) return true;
+		}
+	}
+
+	return false;
+}
+
 export function isDetected(state: GameState): boolean {
 	const snakeSet = new Set(state.snake.map((p) => `${p.x},${p.y}`));
 

@@ -2,7 +2,7 @@ import type { Direction, GameState } from './types.js';
 import { cloneState } from './state.js';
 import { movePlayer, canMove as canMovePlayer } from './movement.js';
 import { tickGuards, tickCameras } from './entities.js';
-import { isDetected } from './detection.js';
+import { isDetected, isCageTheftDetected } from './detection.js';
 
 function allCagesCollected(state: GameState): boolean {
 	let totalCages = 0;
@@ -27,6 +27,8 @@ export function tick(state: GameState, direction: Direction): GameState | null {
 	next.cameras = tickCameras(next.cameras);
 
 	if (isDetected(next)) {
+		next.status = 'lost';
+	} else if (isCageTheftDetected(state, next)) {
 		next.status = 'lost';
 	} else if (
 		allCagesCollected(next) &&
