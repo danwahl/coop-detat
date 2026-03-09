@@ -188,7 +188,7 @@
 	.toolbar input { width: 80px; padding: 4px; font-family: monospace; }
 	.toolbar input[type="text"] { width: 120px; }
 .toolbar input[type="text"]::placeholder { color: #888; font-style: italic; }
-	.palette { display: flex; gap: 4px; padding: 8px; background: #2a2a2a; }
+	.palette { display: flex; gap: 4px; padding: 8px; background: #2a2a2a; flex-wrap: wrap; }
 	.palette button { padding: 6px 12px; background: #444; color: white; border: 1px solid #666; border-radius: 4px; cursor: pointer; font-family: monospace; }
 	.palette button.active { background: #0078d4; border-color: #0078d4; }
 	.config-slot { min-height: 44px; background: #2a2a2a; display: flex; align-items: center; padding: 0 12px; }
@@ -205,4 +205,10 @@
 	.grid-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden; touch-action: none; }
 	button { padding: 4px 12px; cursor: pointer; border: 1px solid #666; background: #555; color: white; border-radius: 4px; font-family: monospace; }
 	button:hover { background: #777; }
+	@media (max-width: 480px) {
+		.palette button { padding: 4px 8px; font-size: 0.85rem; }
+		.toolbar { gap: 4px; padding: 4px; font-size: 0.85rem; }
+		.toolbar input { width: 60px; }
+		.toolbar input[type="text"] { width: 90px; }
+	}
 </style>
