@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { openLevel, pressDirection, expectStatus, playSolution } from './helpers.js';
+import { openLevel, pressDirection, expectStatus, playSolution, drainExit } from './helpers.js';
 
 test.describe('Detection & Enemies', () => {
 	test('camera vision cone renders on Level 2', async ({ page }) => {
@@ -35,8 +35,8 @@ test.describe('Detection & Enemies', () => {
 
 	test('can beat Level 2', async ({ page }) => {
 		await openLevel(page, 'level2');
-		// Solution: down, down, right, right, right, right, right (par 7)
 		await playSolution(page, ['down', 'down', 'right', 'right', 'right', 'right', 'right']);
+		await drainExit(page, 2); // 1 chicken + ninja
 		await expectStatus(page, 'won');
 	});
 });

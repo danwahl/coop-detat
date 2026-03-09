@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { openLevel, pressDirection, getMoveCount, expectStatus, playSolution } from './helpers.js';
+import { openLevel, pressDirection, getMoveCount, expectStatus, playSolution, drainExit } from './helpers.js';
 
 test.describe('Core Gameplay (Level 1)', () => {
 	test.beforeEach(async ({ page }) => {
@@ -22,15 +22,15 @@ test.describe('Core Gameplay (Level 1)', () => {
 	});
 
 	test('win condition triggers', async ({ page }) => {
-		// Level 1 solution: par 6 — up, right, right, right, down, right
-		// Player at (1,2), cage at (3,2), exit at (5,2)
-		// up to (1,1), right to (2,1) adj (3,1)? No... let me use the known solution
+		// Level 1 routing: up, right, right, right, down, right + 2 drain ticks
 		await playSolution(page, ['up', 'right', 'right', 'right', 'down', 'right']);
+		await drainExit(page, 2);
 		await expectStatus(page, 'won');
 	});
 
 	test('cannot move after winning', async ({ page }) => {
 		await playSolution(page, ['up', 'right', 'right', 'right', 'down', 'right']);
+		await drainExit(page, 2);
 		await expectStatus(page, 'won');
 		const count = await getMoveCount(page);
 		await pressDirection(page, 'right');

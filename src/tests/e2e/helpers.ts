@@ -36,7 +36,13 @@ export async function expectStatus(page: Page, status: 'playing' | 'won' | 'lost
 	} else if (status === 'won') {
 		await expect(page.getByTestId('status-message')).toHaveText('Level Complete!');
 	} else {
-		await expect(page.getByTestId('status-message')).toHaveText('Detected!');
+		await expect(page.getByTestId('status-message')).toHaveText('Caught!');
+	}
+}
+
+export async function drainExit(page: Page, count: number) {
+	for (let i = 0; i < count; i++) {
+		await pressDirection(page, 'right');
 	}
 }
 
