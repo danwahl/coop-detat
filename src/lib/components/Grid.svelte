@@ -98,6 +98,12 @@
 		const last = state.collectedCages[state.collectedCages.length - 1];
 		return last.x === x && last.y === y;
 	}
+
+	let drainsStarted = $derived.by(() => {
+		if (state.status !== 'exiting') return false;
+		const totalCages = state.level.grid.flat().filter(c => c === 'cage').length;
+		return state.snake.length < totalCages + 1;
+	});
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -204,7 +210,7 @@
 
 	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
-		{#if i > 0}
+		{#if i > 0 || drainsStarted}
 			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 7 : -7}
 			{@const segCx = seg.x * cellSize + cellSize / 2}
 			{@const segCy = seg.y * cellSize + cellSize / 2}
@@ -221,16 +227,18 @@
 		{/if}
 	{/each}
 
-	<!-- Player head (ninja) -->
-	<image
-		data-testid="player-head"
-		href={ninjaUrl}
-		x={state.playerPos.x * cellSize + cellSize * 0.15}
-		y={state.playerPos.y * cellSize + cellSize * 0.15}
-		width={cellSize * 0.7}
-		height={cellSize * 0.7}
-		style="pointer-events: none"
-	/>
+	<!-- Player head (ninja) — hide once draining starts -->
+	{#if !drainsStarted}
+		<image
+			data-testid="player-head"
+			href={ninjaUrl}
+			x={state.playerPos.x * cellSize + cellSize * 0.15}
+			y={state.playerPos.y * cellSize + cellSize * 0.15}
+			width={cellSize * 0.7}
+			height={cellSize * 0.7}
+			style="pointer-events: none"
+		/>
+	{/if}
 
 	<!-- Guards -->
 	{#each state.guards as guard}

@@ -24,7 +24,7 @@ describe('solver', () => {
 
 		const result = solve(level);
 		expect(result).not.toBeNull();
-		expect(result!.solution.length).toBe(5); // up, right, right, down + 1 drain
+		expect(result!.solution.length).toBe(6); // up, right, right, down + 2 drain
 	});
 
 	it('returns null for unsolvable level', () => {
@@ -73,6 +73,6 @@ describe('solver', () => {
 		level.exit = { x: 2, y: 1 };
 		const result = solve(level);
 		expect(result).not.toBeNull();
-		expect(result!.solution.length).toBe(3); // 2 moves + 1 drain
+		expect(result!.solution.length).toBe(4); // 2 moves + 2 drain
 	});
 });

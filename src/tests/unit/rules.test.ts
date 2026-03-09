@@ -55,6 +55,9 @@ describe('win condition', () => {
 		expect(state.status).toBe('exiting');
 
 		state = tick(state, 'right')!; // drain chicken
+		expect(state.status).toBe('exiting');
+
+		state = tick(state, 'right')!; // drain ninja
 		expect(state.status).toBe('won');
 	});
 });
@@ -107,8 +110,11 @@ describe('full level playthrough', () => {
 		expect(state.status).toBe('exiting');
 
 		state = tick(state, 'down')!;  // drain chicken
+		expect(state.status).toBe('exiting');
+
+		state = tick(state, 'down')!;  // drain ninja
 		expect(state.status).toBe('won');
-		expect(state.turnNumber).toBe(5);
+		expect(state.turnNumber).toBe(6);
 	});
 });
 

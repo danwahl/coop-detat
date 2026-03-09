@@ -32,7 +32,7 @@ function exitTick(state: GameState): GameState {
 	// Detection on remaining snake
 	if (isDetected(next)) {
 		next.status = 'lost';
-	} else if (next.snake.length <= 1) {
+	} else if (next.snake.length === 0) {
 		next.status = 'won';
 	}
 
