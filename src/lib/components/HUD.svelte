@@ -1,4 +1,6 @@
 <script lang="ts">
+	import chickenUrl from '$lib/assets/emoji/chicken.svg';
+
 	interface Props {
 		turnNumber: number;
 		par?: number;
@@ -38,7 +40,7 @@
 					<p class="rescue-message">You rescued {chickenCount} chicken{chickenCount !== 1 ? 's' : ''}!</p>
 					<p class="chicken-lineup">
 						{#each Array(chickenCount) as _, i}
-							<span style="display: inline-block; transform: rotate({(i % 2 === 0) ? 7 : -7}deg);">&#x1F414;</span>
+							<img src={chickenUrl} alt="chicken" style="display: inline-block; width: 1.5em; height: 1.5em; vertical-align: middle; transform: rotate({(i % 2 === 0) ? 7 : -7}deg);" />
 						{/each}
 					</p>
 				{/if}

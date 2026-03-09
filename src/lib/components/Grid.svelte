@@ -1,6 +1,11 @@
 <script lang="ts">
 	import type { GameState, Position } from '$lib/engine/types.js';
 	import { getVisibleCells } from '$lib/engine/detection.js';
+	import ninjaUrl from '$lib/assets/emoji/ninja.svg';
+	import chickenUrl from '$lib/assets/emoji/chicken.svg';
+	import guardUrl from '$lib/assets/emoji/guard.svg';
+	import cameraUrl from '$lib/assets/emoji/camera.svg';
+	import doorUrl from '$lib/assets/emoji/door.svg';
 
 	interface Props {
 		state: GameState;
@@ -185,75 +190,77 @@
 	{/if}
 
 	<!-- Exit marker -->
-	<text
+	<image
 		data-testid="exit-marker"
-		x={state.level.exit.x * cellSize + cellSize / 2}
-		y={state.level.exit.y * cellSize + cellSize / 2}
-		text-anchor="middle"
-		dominant-baseline="central"
-		font-size={cellSize * 0.7}
+		href={doorUrl}
+		x={state.level.exit.x * cellSize + cellSize * 0.15}
+		y={state.level.exit.y * cellSize + cellSize * 0.15}
+		width={cellSize * 0.7}
+		height={cellSize * 0.7}
 		style="pointer-events: none"
-	>&#x1F6AA;</text>
+	/>
 
 	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
 		{#if i > 0}
 			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 7 : -7}
-			<text
+			{@const segCx = seg.x * cellSize + cellSize / 2}
+			{@const segCy = seg.y * cellSize + cellSize / 2}
+			<image
 				data-testid="snake-segment-{i}"
-				x={seg.x * cellSize + cellSize / 2}
-				y={seg.y * cellSize + cellSize / 2}
-				text-anchor="middle"
-				dominant-baseline="central"
-				font-size={cellSize * 0.6}
+				href={chickenUrl}
+				x={seg.x * cellSize + cellSize * 0.2}
+				y={seg.y * cellSize + cellSize * 0.2}
+				width={cellSize * 0.6}
+				height={cellSize * 0.6}
 				style="pointer-events: none"
-				transform="rotate({tilt}, {seg.x * cellSize + cellSize / 2}, {seg.y * cellSize + cellSize / 2})"
-			>&#x1F414;</text>
+				transform="rotate({tilt}, {segCx}, {segCy})"
+			/>
 		{/if}
 	{/each}
 
 	<!-- Player head (ninja) -->
-	<text
+	<image
 		data-testid="player-head"
-		x={state.playerPos.x * cellSize + cellSize / 2}
-		y={state.playerPos.y * cellSize + cellSize / 2}
-		text-anchor="middle"
-		dominant-baseline="central"
-		font-size={cellSize * 0.7}
+		href={ninjaUrl}
+		x={state.playerPos.x * cellSize + cellSize * 0.15}
+		y={state.playerPos.y * cellSize + cellSize * 0.15}
+		width={cellSize * 0.7}
+		height={cellSize * 0.7}
 		style="pointer-events: none"
-	>&#x1F977;</text>
+	/>
 
 	<!-- Guards -->
 	{#each state.guards as guard}
 		{@const gp = guardPos(guard)}
-		<text
+		<image
 			data-testid="guard-{guard.id}"
-			x={gp.x * cellSize + cellSize / 2}
-			y={gp.y * cellSize + cellSize / 2}
-			text-anchor="middle"
-			dominant-baseline="central"
-			font-size={cellSize * 0.7}
+			href={guardUrl}
+			x={gp.x * cellSize + cellSize * 0.15}
+			y={gp.y * cellSize + cellSize * 0.15}
+			width={cellSize * 0.7}
+			height={cellSize * 0.7}
 			style="pointer-events: none"
-		>&#x1F46E;</text>
+		/>
 	{/each}
 
 	<!-- Cameras -->
 	{#each state.cameras as camera}
 		{@const facing = camera.directions[camera.dirIndex]}
-		{@const cx = camera.pos.x * cellSize + cellSize / 2}
-		{@const cy = camera.pos.y * cellSize + cellSize / 2}
+		{@const camCx = camera.pos.x * cellSize + cellSize / 2}
+		{@const camCy = camera.pos.y * cellSize + cellSize / 2}
 		{@const cameraTransform = { right: '', left: `scale(-1, 1)`, down: `rotate(90)`, up: `rotate(-90)` }[facing]}
-		<text
+		<image
 			data-testid="camera-{camera.id}"
-			x={cx}
-			y={cy}
-			text-anchor="middle"
-			dominant-baseline="central"
-			font-size={cellSize * 0.7}
+			href={cameraUrl}
+			x={camera.pos.x * cellSize + cellSize * 0.15}
+			y={camera.pos.y * cellSize + cellSize * 0.15}
+			width={cellSize * 0.7}
+			height={cellSize * 0.7}
 			style="pointer-events: none"
 			transform={cameraTransform}
-			transform-origin="{cx} {cy}"
-		>&#x1F3A5;</text>
+			transform-origin="{camCx} {camCy}"
+		/>
 	{/each}
 
 	<!-- Cage chickens + bars (bars render on top of chicken) -->
@@ -262,14 +269,14 @@
 			{#if cell === 'cage'}
 				{@const isCageCollected = collectedSet.has(`${cx},${cy}`)}
 				{#if !isCageCollected || isPendingCage(cx, cy)}
-					<text
-						x={cx * cellSize + cellSize / 2}
-						y={cy * cellSize + cellSize / 2}
-						text-anchor="middle"
-						dominant-baseline="central"
-						font-size={cellSize * 0.5}
+					<image
+						href={chickenUrl}
+						x={cx * cellSize + cellSize * 0.25}
+						y={cy * cellSize + cellSize * 0.25}
+						width={cellSize * 0.5}
+						height={cellSize * 0.5}
 						style="pointer-events: none"
-					>&#x1F414;</text>
+					/>
 				{/if}
 				{#each [0.25, 0.5, 0.75] as ratio}
 					<line

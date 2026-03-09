@@ -45,3 +45,6 @@ solver that finds the optimal solution.
 Inspired by the work of [Direct Action Everywhere](https://www.directactioneverywhere.com/)
 and other animal welfare organizations. The name is a pun on "coup d'etat" —
 a chicken coop revolution.
+
+Emoji graphics by [Twemoji](https://github.com/jdecked/twemoji), licensed
+under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
