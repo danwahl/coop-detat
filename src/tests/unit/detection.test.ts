@@ -29,10 +29,10 @@ describe('getVisibleCells', () => {
 		expect(visible).toEqual([{ x: 3, y: 5 }]);
 	});
 
-	it('stops at cage', () => {
+	it('sees through cage', () => {
 		const state = createGameState(makeLevel(10, 10, { '4,5': 'cage' }));
 		const visible = getVisibleCells({ x: 2, y: 5 }, 'right', 5, state);
-		expect(visible).toEqual([{ x: 3, y: 5 }]);
+		expect(visible).toEqual([{ x: 3, y: 5 }, { x: 4, y: 5 }, { x: 5, y: 5 }, { x: 6, y: 5 }, { x: 7, y: 5 }]);
 	});
 
 	it('stops at grid edge', () => {

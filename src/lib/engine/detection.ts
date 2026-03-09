@@ -20,7 +20,7 @@ export function getVisibleCells(
 		const y = pos.y + vec.y * i;
 		if (x < 0 || y < 0 || x >= state.level.width || y >= state.level.height) break;
 		const cell = state.level.grid[y][x];
-		if (cell === 'wall' || cell === 'cage') break;
+		if (cell === 'wall') break;
 		visible.push({ x, y });
 	}
 	return visible;

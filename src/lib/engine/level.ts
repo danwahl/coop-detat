@@ -51,8 +51,8 @@ export function validateLevel(level: LevelDef): string[] {
 		const ny = camera.pos.y + DIR_DY[dir];
 		if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
 			const cell = grid[ny][nx];
-			if (cell === 'wall' || cell === 'cage') {
-				errors.push(`Camera "${camera.id}" faces ${dir} into ${cell} at (${nx},${ny})`);
+			if (cell === 'wall') {
+				errors.push(`Camera "${camera.id}" faces ${dir} into wall at (${nx},${ny})`);
 			}
 		}
 	}
