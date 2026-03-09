@@ -103,7 +103,10 @@
 		if (state.status === 'won') return true;
 		if (state.status === 'lost' || state.status === 'exiting') {
 			const totalCages = state.level.grid.flat().filter(c => c === 'cage').length;
-			return state.snake.length < totalCages + 1;
+			const allCollected = state.collectedCages.length >= totalCages;
+			const onExit = state.playerPos.x === state.level.exit.x
+				&& state.playerPos.y === state.level.exit.y;
+			return allCollected && onExit && state.snake.length < totalCages + 1;
 		}
 		return false;
 	});
