@@ -77,6 +77,9 @@ npm run build        # production build (outputs to build/)
 - **Cage theft detection**: If an observer (guard/camera) can see a cage on two
   consecutive turns and the chicken disappears between them, the player is caught.
   Fixed cameras watching a cage make that chicken unfreeable from their direction.
+- **Exit draining**: When the player reaches the exit with all chickens, the game
+  enters 'exiting' phase. Each tick removes the tail chicken (it enters the door).
+  Guards/cameras keep moving and detection still applies. Win when snake length = 1.
 - Cameras are impassable (block movement like walls).
 
 ## Common Pitfalls
