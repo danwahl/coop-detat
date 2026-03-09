@@ -1,0 +1,43 @@
+{
+	"id": "level9",
+	"name": "The Tower",
+	"width": 7,
+	"height": 11,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "wall", "wall", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "wall", "wall", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "cage", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 1 },
+	"guards": [],
+	"cameras": [
+		{
+			"id": "cam1",
+			"pos": { "x": 5, "y": 3 },
+			"directions": ["down"],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 3
+		},
+		{
+			"id": "cam2",
+			"pos": { "x": 1, "y": 6 },
+			"directions": ["down"],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 3
+		}
+	],
+	"exit": { "x": 5, "y": 9 },
+	"par": 16
+}
