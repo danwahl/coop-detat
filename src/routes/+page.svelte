@@ -48,6 +48,7 @@
 		{#if Object.keys(progress).length > 0}
 			<button class="reset-btn" data-testid="reset-progress-button" onclick={() => { resetProgress(); refreshProgress(); }}>Reset Progress</button>
 		{/if}
+		<span class="version">v{__APP_VERSION__}</span>
 	</div>
 {/if}
 
@@ -118,4 +119,5 @@
 		cursor: pointer;
 	}
 	.reset-btn:hover { background: #555; color: white; }
+	.version { margin-top: 32px; font-size: 0.7rem; color: #555; }
 </style>
