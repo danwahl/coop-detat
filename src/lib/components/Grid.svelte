@@ -143,8 +143,10 @@
 
 	<!-- Guard patrol paths -->
 	{#each state.guards as guard}
+		{@const pathPoints = guard.path.map(p => `${p.x * cellSize + cellSize / 2},${p.y * cellSize + cellSize / 2}`)}
+		{@const points = guard.patrolMode === 'loop' ? [...pathPoints, pathPoints[0]].join(' ') : pathPoints.join(' ')}
 		<polyline
-			points={guard.path.map(p => `${p.x * cellSize + cellSize / 2},${p.y * cellSize + cellSize / 2}`).join(' ')}
+			points={points}
 			fill="none"
 			stroke="rgba(33, 150, 243, 0.25)"
 			stroke-width="2"
