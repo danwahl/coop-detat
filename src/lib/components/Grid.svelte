@@ -17,7 +17,7 @@
 	const CELL_COLORS: Record<string, string> = {
 		empty: '#e8e0d4',
 		wall: '#4a4a4a',
-		cage: '#8B6914',
+		cage: '#9e9e9e',
 		exit: '#4CAF50'
 	};
 
@@ -68,28 +68,14 @@
 				y={gy * cellSize}
 				width={cellSize}
 				height={cellSize}
-				fill={isCageCollected ? '#a89060' : CELL_COLORS[cell]}
+				fill={isCageCollected ? '#bdbdbd' : CELL_COLORS[cell]}
 				stroke="#ccc"
 				stroke-width="0.5"
 				onclick={() => onCellClick?.(gx, gy)}
 				onpointerdown={() => onCellDown?.(gx, gy)}
 				onpointerover={() => onCellOver?.(gx, gy)}
 			/>
-			{#if cell === 'cage'}
-				{#each [0.25, 0.5, 0.75] as ratio}
-					<line
-						x1={gx * cellSize + cellSize * ratio}
-						y1={gy * cellSize + 2}
-						x2={gx * cellSize + cellSize * ratio}
-						y2={(gy + 1) * cellSize - 2}
-						stroke={isCageCollected ? 'rgba(60, 40, 10, 0.2)' : 'rgba(60, 40, 10, 0.5)'}
-						stroke-width="2"
-						stroke-linecap="round"
-						style="pointer-events: none"
-					/>
-				{/each}
-			{/if}
-		{/each}
+			{/each}
 	{/each}
 
 	<!-- Vision overlay -->
@@ -205,18 +191,33 @@
 		>&#x1F4F7;</text>
 	{/each}
 
-	<!-- Cage chickens (uncollected) -->
+	<!-- Cage chickens + bars (bars render on top of chicken) -->
 	{#each state.level.grid as row, cy}
 		{#each row as cell, cx}
-			{#if cell === 'cage' && (!collectedSet.has(`${cx},${cy}`) || isPendingCage(cx, cy))}
-				<text
-					x={cx * cellSize + cellSize / 2}
-					y={cy * cellSize + cellSize / 2}
-					text-anchor="middle"
-					dominant-baseline="central"
-					font-size={cellSize * 0.5}
-					style="pointer-events: none"
-				>&#x1F414;</text>
+			{#if cell === 'cage'}
+				{@const isCageCollected = collectedSet.has(`${cx},${cy}`)}
+				{#if !isCageCollected || isPendingCage(cx, cy)}
+					<text
+						x={cx * cellSize + cellSize / 2}
+						y={cy * cellSize + cellSize / 2}
+						text-anchor="middle"
+						dominant-baseline="central"
+						font-size={cellSize * 0.5}
+						style="pointer-events: none"
+					>&#x1F414;</text>
+				{/if}
+				{#each [0.25, 0.5, 0.75] as ratio}
+					<line
+						x1={cx * cellSize + cellSize * ratio}
+						y1={cy * cellSize + 2}
+						x2={cx * cellSize + cellSize * ratio}
+						y2={(cy + 1) * cellSize - 2}
+						stroke={isCageCollected ? 'rgba(50, 50, 50, 0.2)' : 'rgba(50, 50, 50, 0.6)'}
+						stroke-width="2"
+						stroke-linecap="round"
+						style="pointer-events: none"
+					/>
+				{/each}
 			{/if}
 		{/each}
 	{/each}
