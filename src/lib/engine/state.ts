@@ -1,15 +1,22 @@
 import type { LevelDef, GameState } from './types.js';
 import { expandPath } from './path.js';
+import { facingFromPositions } from './entities.js';
 
 function deepClone<T>(obj: T): T {
 	return JSON.parse(JSON.stringify(obj));
 }
 
 export function createGameState(level: LevelDef): GameState {
-	const guards = deepClone(level.guards).map((g) => ({
-		...g,
-		path: expandPath(g.path, g.patrolMode === 'loop')
-	}));
+	const guards = deepClone(level.guards).map((g) => {
+		const expanded = expandPath(g.path, g.patrolMode === 'loop');
+		return {
+			...g,
+			path: expanded,
+			facing: expanded.length >= 2
+				? facingFromPositions(expanded[0], expanded[1])
+				: g.facing
+		};
+	});
 	return {
 		level: deepClone(level),
 		playerPos: { ...level.playerStart },

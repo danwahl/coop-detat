@@ -1,6 +1,6 @@
 import type { Guard, Camera, Direction } from './types.js';
 
-function facingFromPositions(
+export function facingFromPositions(
 	from: { x: number; y: number },
 	to: { x: number; y: number }
 ): Direction {
