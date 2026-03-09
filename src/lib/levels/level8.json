@@ -1,0 +1,42 @@
+{
+	"id": "level8",
+	"name": "The Great Escape",
+	"width": 11,
+	"height": 9,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 4 },
+	"guards": [
+		{
+			"id": "guard1",
+			"path": [{ "x": 3, "y": 1 }, { "x": 3, "y": 7 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "down",
+			"visionRange": 2
+		}
+	],
+	"cameras": [
+		{
+			"id": "cam1",
+			"pos": { "x": 9, "y": 4 },
+			"directions": ["left"],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 3
+		}
+	],
+	"exit": { "x": 9, "y": 7 },
+	"par": 30
+}

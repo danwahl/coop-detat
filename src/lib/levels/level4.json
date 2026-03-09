@@ -1,0 +1,29 @@
+{
+	"id": "level4",
+	"name": "Side Step",
+	"width": 9,
+	"height": 6,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "wall", "empty", "empty", "cage", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 1, "y": 4 },
+	"guards": [],
+	"cameras": [
+		{
+			"id": "cam1",
+			"pos": { "x": 4, "y": 4 },
+			"directions": ["up"],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 3
+		}
+	],
+	"exit": { "x": 7, "y": 4 },
+	"par": 12
+}
