@@ -194,14 +194,20 @@
 
 	<!-- Cameras -->
 	{#each state.cameras as camera}
+		{@const facing = camera.directions[camera.dirIndex]}
+		{@const cx = camera.pos.x * cellSize + cellSize / 2}
+		{@const cy = camera.pos.y * cellSize + cellSize / 2}
+		{@const cameraTransform = { right: '', left: `scale(-1, 1)`, down: `rotate(90)`, up: `rotate(-90)` }[facing]}
 		<text
 			data-testid="camera-{camera.id}"
-			x={camera.pos.x * cellSize + cellSize / 2}
-			y={camera.pos.y * cellSize + cellSize / 2}
+			x={cx}
+			y={cy}
 			text-anchor="middle"
 			dominant-baseline="central"
 			font-size={cellSize * 0.7}
 			style="pointer-events: none"
+			transform={cameraTransform}
+			transform-origin="{cx} {cy}"
 		>&#x1F3A5;</text>
 	{/each}
 
