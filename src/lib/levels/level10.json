@@ -11,8 +11,8 @@
 		["wall", "empty", "empty", "wall", "empty", "cage", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "wall", "empty", "empty", "wall"],
-		["wall", "cage", "empty", "wall", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "cage", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "cage", "empty", "wall"],
@@ -33,8 +33,8 @@
 	"cameras": [
 		{
 			"id": "cam1",
-			"pos": { "x": 5, "y": 3 },
-			"directions": ["down"],
+			"pos": { "x": 5, "y": 6 },
+			"directions": ["up"],
 			"dirIndex": 0,
 			"dirDirection": 1,
 			"patrolMode": "fixed",
@@ -42,5 +42,5 @@
 		}
 	],
 	"exit": { "x": 5, "y": 11 },
-	"par": 24
+	"par": 22
 }
