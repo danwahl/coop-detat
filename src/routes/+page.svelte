@@ -34,7 +34,7 @@
 				{@const atPar = prog?.solved && level.par && prog.bestMoves <= level.par}
 				<button data-testid="level-button-{level.id}" onclick={() => (selectedLevel = level)}>
 					<span class="level-info">
-						<span class="status-dot" class:solved={prog?.solved} class:gold={atPar}></span>
+						<span class="status-dot" class:solved={prog?.solved && !atPar} class:perfect={atPar}></span>
 						<span>{level.name}</span>
 					</span>
 					<span class="par">
@@ -91,8 +91,8 @@
 	.level-info { display: flex; align-items: center; gap: 8px; min-width: 0; }
 	.level-info span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 	.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; flex-shrink: 0; }
-	.status-dot.solved { background: #4CAF50; }
-	.status-dot.gold { background: #FFD700; }
+	.status-dot.solved { background: #FFD700; }
+	.status-dot.perfect { background: #4CAF50; }
 	.par { color: #888; white-space: nowrap; flex-shrink: 0; font-size: 0.85rem; }
 	.editor-btn {
 		margin-top: 32px;
