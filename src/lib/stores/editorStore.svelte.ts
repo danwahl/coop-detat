@@ -52,10 +52,18 @@ export function clickCell(x: number, y: number) {
 		return;
 	}
 	if (currentTool === 'guard') {
+		if (grid[y][x] !== 'empty') return;
+		if (x === exit.x && y === exit.y) return;
+		if (cameras.some(c => c.pos.x === x && c.pos.y === y)) return;
 		guardPathInProgress = [...guardPathInProgress, { x, y }];
 		return;
 	}
 	if (currentTool === 'camera') {
+		if (grid[y][x] !== 'empty') return;
+		if (x === playerStart.x && y === playerStart.y) return;
+		if (x === exit.x && y === exit.y) return;
+		if (cameras.some(c => c.pos.x === x && c.pos.y === y)) return;
+		if (guards.some(g => g.path[0].x === x && g.path[0].y === y)) return;
 		cameras = [...cameras, {
 			id: `cam-${Date.now()}`,
 			pos: { x, y },
