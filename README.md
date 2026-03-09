@@ -1,42 +1,47 @@
-# sv
+# Coop D'etat
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A turn-based puzzle game about rescuing chickens from factory farms.
 
-## Creating a project
+Guide your ninja rescuer through guarded facilities, avoid detection by
+cameras and patrolling officers, and lead every chicken to freedom.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Play
 
-```sh
-# create a new project
-npx sv create my-app
-```
+[Play online](https://coop-detat.vercel.app)
 
-To recreate this project with the same configuration:
+## How to Play
 
-```sh
-# recreate this project
-npx sv@0.12.5 create --template minimal --types ts --install npm .
-```
+- **Arrow keys / WASD** — Move the ninja
+- **Z** — Undo last move
+- **R** — Restart level
+- **Swipe** — Touch controls on mobile
 
-## Developing
+Move adjacent to a cage to free a chicken. Freed chickens follow you in a
+line. Avoid being spotted by cameras or guards — they can see in a straight
+line in the direction they face. Collect all chickens and reach the exit to
+complete the level.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Development
 
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+Built with SvelteKit + TypeScript + SVG.
 
 ```sh
-npm run build
+npm install
+npm run dev          # dev server
+npm test             # unit tests (Vitest)
+npm run test:e2e     # E2E tests (Playwright)
+npm run build        # production build
 ```
 
-You can preview the production build with `npm run preview`.
+## Level Editor
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+The built-in level editor lets you create custom levels. Features include
+drag-to-paint walls and cages, guard path drawing (click the start cell to
+close a loop), camera placement with configurable direction, and a BFS
+solver that finds the optimal solution.
+
+## Acknowledgements
+
+Inspired by the work of [Direct Action Everywhere](https://www.directactioneverywhere.com/)
+and other animal welfare organizations. The name is a pun on "coup d'etat" —
+a chicken coop revolution.
