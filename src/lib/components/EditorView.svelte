@@ -2,7 +2,7 @@
 	import {
 		initEditor, clickCell, setTool, exportLevel, importLevel,
 		validate, resizeGrid, getEditorState, setLevelName, setLevelId,
-		setGuardMode, setGuardVision, finalizeGuardPath,
+		setGuardVision, finalizeGuardPath,
 		setCameraDirection, setCameraVision,
 		isPaintable, paintCell
 	} from '$lib/stores/editorStore.svelte.js';
@@ -168,15 +168,10 @@
 		<div class="config-slot">
 			{#if editorState.currentTool === 'guard'}
 				<div class="entity-config">
-					<label>Mode:
-						<select value={editorState.editingGuardMode} onchange={(e) => setGuardMode(e.currentTarget.value as 'pace' | 'loop')}>
-							<option value="pace">Pace</option>
-							<option value="loop">Loop</option>
-						</select>
-					</label>
 					<label>Vision: <input type="number" value={editorState.editingGuardVision} min="1" max="10" oninput={(e) => setGuardVision(+e.currentTarget.value)} /></label>
 					<span>Path: {editorState.guardPathInProgress.length} points</span>
-					<button onclick={() => { const err = finalizeGuardPath(); if (err) addToast(err, 'error'); }}>Finish Guard</button>
+					<span class="hint">Click start to loop</span>
+					<button onclick={() => { const err = finalizeGuardPath(); if (err) addToast(err, 'error'); }}>Finish (pace)</button>
 				</div>
 			{:else if editorState.currentTool === 'camera'}
 				<div class="entity-config">
@@ -220,6 +215,7 @@
 	.entity-config { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 	.entity-config label { display: flex; gap: 4px; align-items: center; }
 	.entity-config input, .entity-config select { width: 60px; padding: 2px; font-family: monospace; }
+	.hint { color: #888; font-size: 0.85em; }
 	.toast-container { position: fixed; top: 16px; right: 16px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; max-width: 360px; }
 	.toast { padding: 10px 16px; border-radius: 6px; font-family: monospace; font-size: 13px; color: white; animation: toast-in 0.2s ease-out; }
 	.toast-error { background: #c62828; }

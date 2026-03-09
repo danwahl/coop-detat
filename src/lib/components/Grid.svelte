@@ -122,6 +122,20 @@
 				stroke="white"
 				stroke-width="1"
 			/>
+			{#if i === 0 && editingPath.length >= 2}
+				<circle
+					cx={point.x * cellSize + cellSize / 2}
+					cy={point.y * cellSize + cellSize / 2}
+					r={cellSize / 4}
+					fill="none"
+					stroke="#4CAF50"
+					stroke-width="1.5"
+					opacity="0.5"
+				>
+					<animate attributeName="r" values="{cellSize/4};{cellSize/3};{cellSize/4}" dur="1.5s" repeatCount="indefinite" />
+					<animate attributeName="opacity" values="0.5;0.2;0.5" dur="1.5s" repeatCount="indefinite" />
+				</circle>
+			{/if}
 		{/each}
 	{/if}
 

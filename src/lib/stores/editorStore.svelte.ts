@@ -14,7 +14,6 @@ let levelName = $state('Untitled');
 let levelId = $state('untitled');
 let currentTool = $state<EditorTool>('wall');
 let guardPathInProgress = $state<{ x: number; y: number }[]>([]);
-let editingGuardMode = $state<'pace' | 'loop'>('pace');
 let editingGuardVision = $state(3);
 let editingCameraDirection = $state<Direction>('right');
 let editingCameraVision = $state(3);
@@ -55,6 +54,25 @@ export function clickCell(x: number, y: number) {
 		if (grid[y][x] !== 'empty') return;
 		if (x === exit.x && y === exit.y) return;
 		if (cameras.some(c => c.pos.x === x && c.pos.y === y)) return;
+
+		// Click start cell to close loop
+		if (guardPathInProgress.length >= 2) {
+			const start = guardPathInProgress[0];
+			if (x === start.x && y === start.y) {
+				guards = [...guards, {
+					id: `guard-${Date.now()}`,
+					path: [...guardPathInProgress],
+					pathIndex: 0,
+					pathDirection: 1 as 1 | -1,
+					patrolMode: 'loop',
+					facing: 'right' as Direction,
+					visionRange: editingGuardVision
+				}];
+				guardPathInProgress = [];
+				return;
+			}
+		}
+
 		guardPathInProgress = [...guardPathInProgress, { x, y }];
 		return;
 	}
@@ -95,7 +113,7 @@ function finalizeGuard(): string | null {
 			path: [...guardPathInProgress],
 			pathIndex: 0,
 			pathDirection: 1 as 1 | -1,
-			patrolMode: editingGuardMode,
+			patrolMode: 'pace',
 			facing: 'right' as Direction,
 			visionRange: editingGuardVision
 		}];
@@ -182,14 +200,13 @@ export function getEditorState() {
 	return {
 		width, height, grid, playerStart, exit, guards, cameras,
 		levelName, levelId, currentTool, guardPathInProgress,
-		editingGuardMode, editingGuardVision,
+		editingGuardVision,
 		editingCameraDirection, editingCameraVision
 	};
 }
 
 export function setLevelName(name: string) { levelName = name; }
 export function setLevelId(id: string) { levelId = id; }
-export function setGuardMode(mode: 'pace' | 'loop') { editingGuardMode = mode; }
 export function setGuardVision(v: number) { editingGuardVision = v; }
 export function setCameraVision(v: number) { editingCameraVision = v; }
 export function setCameraDirection(dir: Direction) { editingCameraDirection = dir; }
