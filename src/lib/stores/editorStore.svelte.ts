@@ -188,6 +188,8 @@ export function paintCell(x: number, y: number) {
 	if (!PAINTABLE_TOOLS.has(currentTool)) return;
 	if (currentTool === 'eraser') {
 		grid[y][x] = 'empty';
+		guards = guards.filter(g => !g.path.some(p => p.x === x && p.y === y));
+		cameras = cameras.filter(c => c.pos.x !== x || c.pos.y !== y);
 	} else {
 		grid[y][x] = currentTool as CellType;
 	}
