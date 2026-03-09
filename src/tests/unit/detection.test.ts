@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getVisibleCells, isDetected } from '$lib/engine/detection.js';
+import { getVisibleCells, isDetected, isCageTheftDetected } from '$lib/engine/detection.js';
 import { createGameState } from '$lib/engine/state.js';
 import type { LevelDef, Guard, Camera } from '$lib/engine/types.js';
 
@@ -165,5 +165,91 @@ describe('isDetected', () => {
 		state.playerPos = { x: 5, y: 3 };
 		state.snake = [{ x: 5, y: 3 }];
 		expect(isDetected(state)).toBe(true);
+	});
+});
+
+describe('isCageTheftDetected', () => {
+	it('detects theft when fixed camera watches cage on consecutive turns', () => {
+		const camera: Camera = {
+			id: 'c1', pos: { x: 5, y: 0 }, directions: ['down'], dirIndex: 0,
+			dirDirection: 1, patrolMode: 'fixed', visionRange: 5
+		};
+		const level = makeLevel(10, 10, { '5,3': 'cage' });
+		level.cameras = [camera];
+		const prevState = createGameState(level);
+		prevState.collectedCages = [];
+		const nextState = createGameState(level);
+		nextState.collectedCages = [{ x: 5, y: 3 }];
+		expect(isCageTheftDetected(prevState, nextState)).toBe(true);
+	});
+
+	it('no detection when camera cannot see the freed cage', () => {
+		const camera: Camera = {
+			id: 'c1', pos: { x: 5, y: 0 }, directions: ['down'], dirIndex: 0,
+			dirDirection: 1, patrolMode: 'fixed', visionRange: 5
+		};
+		const level = makeLevel(10, 10, { '2,3': 'cage' });
+		level.cameras = [camera];
+		const prevState = createGameState(level);
+		prevState.collectedCages = [];
+		const nextState = createGameState(level);
+		nextState.collectedCages = [{ x: 2, y: 3 }];
+		expect(isCageTheftDetected(prevState, nextState)).toBe(false);
+	});
+
+	it('no detection when no cage was collected', () => {
+		const camera: Camera = {
+			id: 'c1', pos: { x: 5, y: 0 }, directions: ['down'], dirIndex: 0,
+			dirDirection: 1, patrolMode: 'fixed', visionRange: 5
+		};
+		const level = makeLevel(10, 10, { '5,3': 'cage' });
+		level.cameras = [camera];
+		const prevState = createGameState(level);
+		const nextState = createGameState(level);
+		expect(isCageTheftDetected(prevState, nextState)).toBe(false);
+	});
+
+	it('detects theft when guard watches cage on consecutive turns', () => {
+		const guard: Guard = {
+			id: 'g1', path: [{ x: 0, y: 3 }], pathIndex: 0, pathDirection: 1,
+			patrolMode: 'pace', facing: 'right', visionRange: 5
+		};
+		const level = makeLevel(10, 10, { '3,3': 'cage' });
+		level.guards = [guard];
+		const prevState = createGameState(level);
+		prevState.collectedCages = [];
+		const nextState = createGameState(level);
+		nextState.collectedCages = [{ x: 3, y: 3 }];
+		expect(isCageTheftDetected(prevState, nextState)).toBe(true);
+	});
+
+	it('no detection when guard turns away before theft', () => {
+		const guard: Guard = {
+			id: 'g1', path: [{ x: 0, y: 3 }], pathIndex: 0, pathDirection: 1,
+			patrolMode: 'pace', facing: 'right', visionRange: 5
+		};
+		const level = makeLevel(10, 10, { '3,3': 'cage' });
+		level.guards = [guard];
+		const prevState = createGameState(level);
+		prevState.collectedCages = [];
+		// Guard was watching before but turned away after
+		const nextState = createGameState(level);
+		nextState.guards[0].facing = 'up';
+		nextState.collectedCages = [{ x: 3, y: 3 }];
+		expect(isCageTheftDetected(prevState, nextState)).toBe(false);
+	});
+
+	it('detects theft through another cage (vision passes through cages)', () => {
+		const camera: Camera = {
+			id: 'c1', pos: { x: 0, y: 3 }, directions: ['right'], dirIndex: 0,
+			dirDirection: 1, patrolMode: 'fixed', visionRange: 5
+		};
+		const level = makeLevel(10, 10, { '2,3': 'cage', '4,3': 'cage' });
+		level.cameras = [camera];
+		const prevState = createGameState(level);
+		prevState.collectedCages = [];
+		const nextState = createGameState(level);
+		nextState.collectedCages = [{ x: 4, y: 3 }];
+		expect(isCageTheftDetected(prevState, nextState)).toBe(true);
 	});
 });
