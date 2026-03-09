@@ -98,6 +98,7 @@
 		{onNextLevel}
 		onUndo={undo}
 		onRestart={restart}
+		chickenCount={state.collectedCages.length}
 	/>
 	<div class="grid-wrapper">
 		<Grid {state} />

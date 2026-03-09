@@ -7,9 +7,10 @@
 		onRestart: () => void;
 		onBack: () => void;
 		onNextLevel?: () => void;
+		chickenCount?: number;
 	}
 
-	let { turnNumber, par, status, onUndo, onRestart, onBack, onNextLevel }: Props = $props();
+	let { turnNumber, par, status, onUndo, onRestart, onBack, onNextLevel, chickenCount }: Props = $props();
 </script>
 
 <div class="hud" data-testid="hud">
@@ -33,6 +34,9 @@
 		<div class="overlay-content">
 			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Detected!'}</h2>
 			{#if status === 'won'}
+				{#if chickenCount}
+					<p class="rescue-message">&#x1F414; You saved {chickenCount} chicken{chickenCount !== 1 ? 's' : ''}! &#x1F414;</p>
+				{/if}
 				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
 			{/if}
 			<button data-testid="overlay-restart-button" onclick={onRestart}>Restart</button>
@@ -89,5 +93,6 @@
 		font-family: monospace;
 	}
 	.overlay-content h2 { font-size: 2rem; margin-bottom: 8px; }
+	.rescue-message { font-size: 1.2rem; color: #fff8e1; margin-bottom: 4px; }
 	.overlay-content button { margin: 4px; font-size: 1rem; padding: 8px 16px; }
 </style>
