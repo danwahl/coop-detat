@@ -45,7 +45,7 @@ export type GameState = {
 	collectedCages: Position[];
 	pendingChicken: boolean;
 	turnNumber: number;
-	status: 'playing' | 'won' | 'lost';
+	status: 'playing' | 'exiting' | 'won' | 'lost';
 };
 
 export type GameStore = {

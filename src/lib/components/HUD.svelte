@@ -4,7 +4,7 @@
 	interface Props {
 		turnNumber: number;
 		par?: number;
-		status: 'playing' | 'won' | 'lost';
+		status: 'playing' | 'exiting' | 'won' | 'lost';
 		onUndo: () => void;
 		onRestart: () => void;
 		onBack: () => void;
@@ -31,7 +31,7 @@
 	</div>
 </div>
 
-{#if status !== 'playing'}
+{#if status === 'won' || status === 'lost'}
 	<div class="overlay" class:won={status === 'won'} class:lost={status === 'lost'} data-testid="status-overlay">
 		<div class="overlay-content">
 			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Caught!'}</h2>

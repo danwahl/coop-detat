@@ -15,10 +15,36 @@ function allCagesCollected(state: GameState): boolean {
 }
 
 export function canMove(state: GameState, direction: Direction): boolean {
+	if (state.status === 'exiting') return true;
 	return state.status === 'playing' && canMovePlayer(state, direction);
 }
 
+function exitTick(state: GameState): GameState {
+	const next = cloneState(state);
+
+	// Remove tail segment (chicken enters the door)
+	next.snake = next.snake.slice(0, -1);
+
+	// Guards and cameras still tick
+	next.guards = tickGuards(next.guards);
+	next.cameras = tickCameras(next.cameras);
+
+	// Detection on remaining snake
+	if (isDetected(next)) {
+		next.status = 'lost';
+	} else if (next.snake.length <= 1) {
+		next.status = 'won';
+	}
+
+	next.turnNumber++;
+	return next;
+}
+
 export function tick(state: GameState, direction: Direction): GameState | null {
+	if (state.status === 'exiting') {
+		return exitTick(state);
+	}
+
 	const moved = movePlayer(state, direction);
 	if (!moved) return null;
 
@@ -35,7 +61,11 @@ export function tick(state: GameState, direction: Direction): GameState | null {
 		next.playerPos.x === next.level.exit.x &&
 		next.playerPos.y === next.level.exit.y
 	) {
-		next.status = 'won';
+		if (next.snake.length <= 1) {
+			next.status = 'won';
+		} else {
+			next.status = 'exiting';
+		}
 	}
 
 	next.turnNumber++;

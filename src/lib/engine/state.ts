@@ -51,7 +51,8 @@ export function hashState(state: GameState): string {
 		state.guards.map((g) => `${g.pathIndex},${g.pathDirection}`).join(';'),
 		state.cameras.map((c) => `${c.dirIndex},${c.dirDirection}`).join(';'),
 		state.collectedCages.map((p) => `${p.x},${p.y}`).join(';'),
-		state.pendingChicken ? '1' : '0'
+		state.pendingChicken ? '1' : '0',
+		state.status === 'exiting' ? 'E' : ''
 	];
 	return parts.join('|');
 }
