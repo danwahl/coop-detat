@@ -35,7 +35,12 @@
 			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Detected!'}</h2>
 			{#if status === 'won'}
 				{#if chickenCount}
-					<p class="rescue-message">&#x1F414; You saved {chickenCount} chicken{chickenCount !== 1 ? 's' : ''}! &#x1F414;</p>
+					<p class="rescue-message">You rescued {chickenCount} chicken{chickenCount !== 1 ? 's' : ''}!</p>
+					<p class="chicken-lineup">
+						{#each Array(chickenCount) as _, i}
+							<span style="display: inline-block; transform: rotate({(i % 2 === 0) ? 7 : -7}deg);">&#x1F414;</span>
+						{/each}
+					</p>
 				{/if}
 				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
 			{/if}
@@ -94,5 +99,6 @@
 	}
 	.overlay-content h2 { font-size: 2rem; margin-bottom: 8px; }
 	.rescue-message { font-size: 1.2rem; color: #fff8e1; margin-bottom: 4px; }
+	.chicken-lineup { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 8px; }
 	.overlay-content button { margin: 4px; font-size: 1rem; padding: 8px 16px; }
 </style>
