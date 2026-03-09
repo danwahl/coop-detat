@@ -139,7 +139,7 @@
 	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
 		{#if i > 0}
-			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 5 : -5}
+			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 12 : -12}
 			<text
 				data-testid="snake-segment-{i}"
 				x={seg.x * cellSize + cellSize / 2}
@@ -188,7 +188,7 @@
 			dominant-baseline="central"
 			font-size={cellSize * 0.7}
 			style="pointer-events: none"
-		>&#x1F4F7;</text>
+		>&#x1F3A5;</text>
 	{/each}
 
 	<!-- Cage chickens + bars (bars render on top of chicken) -->
