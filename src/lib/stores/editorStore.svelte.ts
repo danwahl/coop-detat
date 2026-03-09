@@ -184,6 +184,19 @@ export function validate(): string[] {
 			errors.push(`Guard "${guard.id}" has invalid path: ${(e as Error).message}`);
 		}
 	}
+	const DIR_DX: Record<string, number> = { up: 0, down: 0, left: -1, right: 1 };
+	const DIR_DY: Record<string, number> = { up: -1, down: 1, left: 0, right: 0 };
+	for (const camera of cameras) {
+		const dir = camera.directions[0];
+		const nx = camera.pos.x + DIR_DX[dir];
+		const ny = camera.pos.y + DIR_DY[dir];
+		if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
+			const cell = grid[ny][nx];
+			if (cell === 'wall' || cell === 'cage') {
+				errors.push(`Camera "${camera.id}" faces ${dir} into ${cell} at (${nx},${ny})`);
+			}
+		}
+	}
 	return errors;
 }
 
