@@ -34,8 +34,15 @@
 	}
 
 	let previewState = $derived.by(() => {
-		const level = exportLevel();
-		return createGameState(level);
+		try {
+			const level = exportLevel();
+			return createGameState(level);
+		} catch {
+			const fallback = exportLevel();
+			fallback.guards = [];
+			fallback.cameras = [];
+			return createGameState(fallback);
+		}
 	});
 
 	function handleExport() {
