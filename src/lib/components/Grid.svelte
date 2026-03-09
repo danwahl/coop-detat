@@ -249,7 +249,7 @@
 		{@const facing = camera.directions[camera.dirIndex]}
 		{@const camCx = camera.pos.x * cellSize + cellSize / 2}
 		{@const camCy = camera.pos.y * cellSize + cellSize / 2}
-		{@const cameraTransform = { right: '', left: `scale(-1, 1)`, down: `rotate(90)`, up: `rotate(-90)` }[facing]}
+		{@const cameraTransform = { left: '', right: `scale(-1, 1)`, down: `rotate(-90)`, up: `rotate(90)` }[facing]}
 		<image
 			data-testid="camera-{camera.id}"
 			href={cameraUrl}
