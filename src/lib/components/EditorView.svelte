@@ -39,8 +39,6 @@
 		return createGameState(level);
 	});
 
-	let showEditorVision = $state(false);
-
 	function handleExport() {
 		const level = exportLevel();
 		const json = JSON.stringify(level, null, '\t');
@@ -128,8 +126,7 @@
 			<button data-testid="import-button" onclick={handleImport}>Import</button>
 			<button data-testid="validate-button" onclick={handleValidate}>Validate</button>
 			<button data-testid="solve-button" onclick={handleSolve}>Solve</button>
-			<label class="vision-toggle"><input type="checkbox" bind:checked={showEditorVision} /> Vision</label>
-			<button data-testid="test-play-button" onclick={handleTestPlay}>Test Play</button>
+		<button data-testid="test-play-button" onclick={handleTestPlay}>Test Play</button>
 		</div>
 
 		<div class="palette">
@@ -188,7 +185,7 @@
 		{/if}
 
 		<div class="grid-area">
-			<Grid state={previewState} showVision={showEditorVision} onCellClick={clickCell} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
+			<Grid state={previewState} showVision={true} onCellClick={clickCell} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
 		</div>
 	</div>
 
@@ -206,8 +203,7 @@
 	.toolbar { display: flex; gap: 8px; padding: 8px; background: #333; flex-wrap: wrap; align-items: center; }
 	.toolbar input { width: 80px; padding: 4px; font-family: monospace; }
 	.toolbar input[type="text"] { width: 120px; }
-	.vision-toggle { display: flex; align-items: center; gap: 4px; cursor: pointer; }
-	.toolbar input[type="text"]::placeholder { color: #888; font-style: italic; }
+.toolbar input[type="text"]::placeholder { color: #888; font-style: italic; }
 	.palette { display: flex; gap: 4px; padding: 8px; background: #2a2a2a; }
 	.palette button { padding: 6px 12px; background: #444; color: white; border: 1px solid #666; border-radius: 4px; cursor: pointer; font-family: monospace; }
 	.palette button.active { background: #0078d4; border-color: #0078d4; }
