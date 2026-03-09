@@ -169,7 +169,7 @@
 					</label>
 					<label>Vision: <input type="number" value={editorState.editingGuardVision} min="1" max="10" oninput={(e) => setGuardVision(+e.currentTarget.value)} /></label>
 					<span>Path: {editorState.guardPathInProgress.length} points</span>
-					<button onclick={finalizeGuardPath}>Finish Guard</button>
+					<button onclick={() => { const err = finalizeGuardPath(); if (err) addToast(err, 'error'); }}>Finish Guard</button>
 				</div>
 			{:else if editorState.currentTool === 'camera'}
 				<div class="entity-config">

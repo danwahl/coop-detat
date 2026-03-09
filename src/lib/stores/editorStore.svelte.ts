@@ -84,7 +84,11 @@ export function clickCell(x: number, y: number) {
 	grid[y][x] = currentTool as CellType;
 }
 
-function finalizeGuard() {
+function finalizeGuard(): string | null {
+	if (guardPathInProgress.length === 1) {
+		guardPathInProgress = [];
+		return 'Guards need at least 2 path points (use Camera for stationary)';
+	}
 	if (guardPathInProgress.length >= 2) {
 		guards = [...guards, {
 			id: `guard-${Date.now()}`,
@@ -97,6 +101,7 @@ function finalizeGuard() {
 		}];
 	}
 	guardPathInProgress = [];
+	return null;
 }
 
 export function exportLevel(): LevelDef {
@@ -188,7 +193,7 @@ export function setGuardMode(mode: 'pace' | 'loop') { editingGuardMode = mode; }
 export function setGuardVision(v: number) { editingGuardVision = v; }
 export function setCameraVision(v: number) { editingCameraVision = v; }
 export function setCameraDirection(dir: Direction) { editingCameraDirection = dir; }
-export function finalizeGuardPath() { finalizeGuard(); }
+export function finalizeGuardPath(): string | null { return finalizeGuard(); }
 
 const PAINTABLE_TOOLS: Set<EditorTool> = new Set(['wall', 'cage', 'empty', 'eraser']);
 
