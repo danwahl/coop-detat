@@ -34,7 +34,7 @@
 {#if status !== 'playing'}
 	<div class="overlay" class:won={status === 'won'} class:lost={status === 'lost'} data-testid="status-overlay">
 		<div class="overlay-content">
-			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Detected!'}</h2>
+			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Caught!'}</h2>
 			{#if status === 'won'}
 				{#if chickenCount}
 					<p class="rescue-message">You rescued {chickenCount} chicken{chickenCount !== 1 ? 's' : ''}!</p>
