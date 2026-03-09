@@ -1,23 +1,24 @@
 {
 	"id": "level6",
-	"name": "The Long Way Round",
-	"width": 10,
-	"height": 8,
+	"name": "The Great Escape",
+	"width": 11,
+	"height": 9,
 	"grid": [
-		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "cage", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "cage", "empty", "wall"],
-		["wall", "empty", "cage", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
-		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
 	],
-	"playerStart": { "x": 1, "y": 1 },
+	"playerStart": { "x": 1, "y": 4 },
 	"guards": [
 		{
 			"id": "guard1",
-			"path": [{ "x": 4, "y": 1 }, { "x": 4, "y": 4 }],
+			"path": [{ "x": 3, "y": 1 }, { "x": 3, "y": 7 }],
 			"pathIndex": 0,
 			"pathDirection": 1,
 			"patrolMode": "pace",
@@ -28,14 +29,14 @@
 	"cameras": [
 		{
 			"id": "cam1",
-			"pos": { "x": 8, "y": 4 },
-			"directions": ["down"],
+			"pos": { "x": 9, "y": 4 },
+			"directions": ["left"],
 			"dirIndex": 0,
 			"dirDirection": 1,
 			"patrolMode": "fixed",
-			"visionRange": 2
+			"visionRange": 3
 		}
 	],
-	"exit": { "x": 8, "y": 1 },
-	"par": 21
+	"exit": { "x": 9, "y": 7 },
+	"par": 30
 }

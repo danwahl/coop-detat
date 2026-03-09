@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { createGameState, cloneState, hashState } from '$lib/engine/state.js';
 import type { LevelDef } from '$lib/engine/types.js';
-import sampleLevel from '$lib/levels/sample.json';
+import sampleLevel from '$lib/levels/level1.json';
 
 describe('createGameState', () => {
 	it('creates valid initial state from level', () => {
 		const state = createGameState(sampleLevel as LevelDef);
-		expect(state.playerPos).toEqual({ x: 1, y: 1 });
-		expect(state.snake).toEqual([{ x: 1, y: 1 }]);
+		expect(state.playerPos).toEqual(sampleLevel.playerStart);
+		expect(state.snake).toEqual([sampleLevel.playerStart]);
 		expect(state.guards).toEqual([]);
 		expect(state.cameras).toEqual([]);
 		expect(state.collectedCages).toEqual([]);
@@ -56,8 +56,9 @@ describe('createGameState', () => {
 
 	it('does not share references with level def', () => {
 		const state = createGameState(sampleLevel as LevelDef);
+		const origX = sampleLevel.playerStart.x;
 		state.playerPos.x = 99;
-		expect(sampleLevel.playerStart.x).toBe(1);
+		expect(sampleLevel.playerStart.x).toBe(origX);
 	});
 });
 
@@ -65,8 +66,9 @@ describe('cloneState', () => {
 	it('creates a deep copy', () => {
 		const state = createGameState(sampleLevel as LevelDef);
 		const clone = cloneState(state);
+		const origX = state.playerPos.x;
 		clone.playerPos.x = 99;
-		expect(state.playerPos.x).toBe(1);
+		expect(state.playerPos.x).toBe(origX);
 	});
 });
 

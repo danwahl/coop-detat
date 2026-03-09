@@ -1,24 +1,28 @@
 {
 	"id": "level8",
-	"name": "The Great Escape",
-	"width": 11,
-	"height": 9,
+	"name": "Descent",
+	"width": 7,
+	"height": 13,
 	"grid": [
-		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "cage", "empty", "empty", "empty", "empty", "empty", "cage", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "wall", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "wall", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "cage", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall"]
 	],
-	"playerStart": { "x": 1, "y": 4 },
+	"playerStart": { "x": 1, "y": 1 },
 	"guards": [
 		{
 			"id": "guard1",
-			"path": [{ "x": 3, "y": 1 }, { "x": 3, "y": 7 }],
+			"path": [{ "x": 3, "y": 5 }, { "x": 3, "y": 10 }],
 			"pathIndex": 0,
 			"pathDirection": 1,
 			"patrolMode": "pace",
@@ -29,14 +33,14 @@
 	"cameras": [
 		{
 			"id": "cam1",
-			"pos": { "x": 9, "y": 4 },
-			"directions": ["left"],
+			"pos": { "x": 5, "y": 6 },
+			"directions": ["up"],
 			"dirIndex": 0,
 			"dirDirection": 1,
 			"patrolMode": "fixed",
 			"visionRange": 3
 		}
 	],
-	"exit": { "x": 9, "y": 7 },
-	"par": 30
+	"exit": { "x": 5, "y": 11 },
+	"par": 24
 }
