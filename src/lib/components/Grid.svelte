@@ -101,9 +101,11 @@
 
 	let drainsStarted = $derived.by(() => {
 		if (state.status === 'won') return true;
-		if (state.status !== 'exiting') return false;
-		const totalCages = state.level.grid.flat().filter(c => c === 'cage').length;
-		return state.snake.length < totalCages + 1;
+		if (state.status === 'lost' || state.status === 'exiting') {
+			const totalCages = state.level.grid.flat().filter(c => c === 'cage').length;
+			return state.snake.length < totalCages + 1;
+		}
+		return false;
 	});
 </script>
 
