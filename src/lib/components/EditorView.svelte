@@ -104,25 +104,6 @@
 		testPlayLevel = exportLevel();
 	}
 
-	let dragging = $state(false);
-
-	function handleCellDown(x: number, y: number) {
-		if (isPaintable()) {
-			dragging = true;
-			paintCell(x, y);
-		}
-	}
-
-	function handleCellOver(x: number, y: number) {
-		if (dragging) {
-			paintCell(x, y);
-		}
-	}
-
-	function handlePointerUp() {
-		dragging = false;
-	}
-
 	type EditorTool = 'empty' | 'wall' | 'cage' | 'exit' | 'playerStart' | 'guard' | 'camera' | 'eraser';
 
 	const tools: { tool: EditorTool; label: string }[] = [
@@ -140,8 +121,7 @@
 {#if testPlayLevel}
 	<GameView level={testPlayLevel} onBack={() => (testPlayLevel = null)} />
 {:else}
-	<!-- svelte-ignore a11y_no_static_element_interactions -->
-	<div class="editor" data-testid="editor-container" onpointerup={handlePointerUp}>
+	<div class="editor" data-testid="editor-container">
 		<div class="toolbar">
 			<button data-testid="editor-back-button" onclick={onBack}>Back</button>
 			<input data-testid="level-name-input" type="text" value={editorState.levelName} oninput={(e) => setLevelName(e.currentTarget.value)} placeholder="Level name" />
@@ -189,7 +169,7 @@
 		</div>
 
 		<div class="grid-area">
-			<Grid state={previewState} showVision={true} onCellClick={clickCell} onCellDown={handleCellDown} onCellOver={handleCellOver} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
+			<Grid state={previewState} showVision={true} onCellClick={clickCell} onCellDrag={isPaintable() ? paintCell : undefined} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
 		</div>
 	</div>
 

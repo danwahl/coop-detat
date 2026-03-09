@@ -7,12 +7,55 @@
 		showVision?: boolean;
 		cellSize?: number;
 		onCellClick?: (x: number, y: number) => void;
-		onCellDown?: (x: number, y: number) => void;
-		onCellOver?: (x: number, y: number) => void;
+		onCellDrag?: (x: number, y: number) => void;
 		editingPath?: Position[];
 	}
 
-	let { state, showVision = true, cellSize = 32, onCellClick, onCellDown, onCellOver, editingPath }: Props = $props();
+	let { state, showVision = true, cellSize = 32, onCellClick, onCellDrag, editingPath }: Props = $props();
+
+	let svgRef: SVGSVGElement;
+	let isDragging = false;
+	let lastDragCell: { x: number; y: number } | null = null;
+
+	function getCellFromPointer(e: PointerEvent): { x: number; y: number } | null {
+		if (!svgRef) return null;
+		const rect = svgRef.getBoundingClientRect();
+		const scaleX = (state.level.width * cellSize) / rect.width;
+		const scaleY = (state.level.height * cellSize) / rect.height;
+		const svgX = (e.clientX - rect.left) * scaleX;
+		const svgY = (e.clientY - rect.top) * scaleY;
+		const gx = Math.floor(svgX / cellSize);
+		const gy = Math.floor(svgY / cellSize);
+		if (gx < 0 || gy < 0 || gx >= state.level.width || gy >= state.level.height) return null;
+		return { x: gx, y: gy };
+	}
+
+	function handleSvgPointerDown(e: PointerEvent) {
+		const cell = getCellFromPointer(e);
+		if (!cell) return;
+		if (onCellDrag) {
+			isDragging = true;
+			lastDragCell = cell;
+			onCellDrag(cell.x, cell.y);
+			svgRef.setPointerCapture(e.pointerId);
+		} else {
+			onCellClick?.(cell.x, cell.y);
+		}
+	}
+
+	function handleSvgPointerMove(e: PointerEvent) {
+		if (!isDragging || !onCellDrag) return;
+		const cell = getCellFromPointer(e);
+		if (!cell) return;
+		if (lastDragCell && cell.x === lastDragCell.x && cell.y === lastDragCell.y) return;
+		onCellDrag(cell.x, cell.y);
+		lastDragCell = cell;
+	}
+
+	function handleSvgPointerUp() {
+		isDragging = false;
+		lastDragCell = null;
+	}
 
 	const CELL_COLORS: Record<string, string> = {
 		empty: '#e8e0d4',
@@ -52,16 +95,21 @@
 	}
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <svg
+	bind:this={svgRef}
 	data-testid="game-grid"
 	viewBox="0 0 {state.level.width * cellSize} {state.level.height * cellSize}"
-	style="max-width: 100%; max-height: 100%; display: block;"
+	style="touch-action: none; max-width: 100%; max-height: 100%; display: block;"
+	onpointerdown={handleSvgPointerDown}
+	onpointermove={handleSvgPointerMove}
+	onpointerup={handleSvgPointerUp}
+	onpointercancel={handleSvgPointerUp}
 >
 	<!-- Grid cells -->
 	{#each state.level.grid as row, gy}
 		{#each row as cell, gx}
 			{@const isCageCollected = cell === 'cage' && collectedSet.has(`${gx},${gy}`)}
-			<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 			<rect
 				data-testid="cell-{gx}-{gy}"
 				x={gx * cellSize}
@@ -71,9 +119,6 @@
 				fill={isCageCollected ? '#bdbdbd' : CELL_COLORS[cell]}
 				stroke="#ccc"
 				stroke-width="0.5"
-				onclick={() => onCellClick?.(gx, gy)}
-				onpointerdown={() => onCellDown?.(gx, gy)}
-				onpointerover={() => onCellOver?.(gx, gy)}
 			/>
 			{/each}
 	{/each}
