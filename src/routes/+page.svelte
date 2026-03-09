@@ -84,13 +84,16 @@
 		cursor: pointer;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+		gap: 8px;
 	}
 	.level-list button:hover { background: #444; }
-	.level-info { display: flex; align-items: center; gap: 8px; }
+	.level-info { display: flex; align-items: center; gap: 8px; min-width: 0; }
+	.level-info span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 	.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #555; flex-shrink: 0; }
 	.status-dot.solved { background: #4CAF50; }
 	.status-dot.gold { background: #FFD700; }
-	.par { color: #888; }
+	.par { color: #888; white-space: nowrap; flex-shrink: 0; font-size: 0.85rem; }
 	.editor-btn {
 		margin-top: 32px;
 		padding: 12px 24px;
