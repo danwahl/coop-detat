@@ -16,8 +16,7 @@ let currentTool = $state<EditorTool>('wall');
 let guardPathInProgress = $state<{ x: number; y: number }[]>([]);
 let editingGuardMode = $state<'pace' | 'loop'>('pace');
 let editingGuardVision = $state(3);
-let editingCameraDir = $state<Direction[]>([]);
-let editingCameraMode = $state<'fixed' | 'pace' | 'loop'>('fixed');
+let editingCameraDirection = $state<Direction>('right');
 let editingCameraVision = $state(3);
 
 export function initEditor(w: number = 10, h: number = 7) {
@@ -31,15 +30,12 @@ export function initEditor(w: number = 10, h: number = 7) {
 	levelName = '';
 	levelId = '';
 	guardPathInProgress = [];
-	editingCameraDir = [];
+	editingCameraDirection = 'right';
 }
 
 export function setTool(tool: EditorTool) {
 	if (currentTool === 'guard' && tool !== 'guard') {
 		finalizeGuard();
-	}
-	if (currentTool === 'camera' && tool !== 'camera') {
-		finalizeCamera();
 	}
 	currentTool = tool;
 }
@@ -60,16 +56,13 @@ export function clickCell(x: number, y: number) {
 		return;
 	}
 	if (currentTool === 'camera') {
-		const dirs: Direction[] = editingCameraMode === 'fixed'
-			? [editingCameraDir.length > 0 ? editingCameraDir[0] : 'right']
-			: editingCameraDir.length > 0 ? [...editingCameraDir] : ['right'];
 		cameras = [...cameras, {
 			id: `cam-${Date.now()}`,
 			pos: { x, y },
-			directions: dirs,
+			directions: [editingCameraDirection],
 			dirIndex: 0,
 			dirDirection: 1 as 1 | -1,
-			patrolMode: editingCameraMode,
+			patrolMode: 'fixed',
 			visionRange: editingCameraVision
 		}];
 		return;
@@ -96,10 +89,6 @@ function finalizeGuard() {
 		}];
 	}
 	guardPathInProgress = [];
-}
-
-function finalizeCamera() {
-	editingCameraDir = [];
 }
 
 export function exportLevel(): LevelDef {
@@ -181,7 +170,7 @@ export function getEditorState() {
 		width, height, grid, playerStart, exit, guards, cameras,
 		levelName, levelId, currentTool, guardPathInProgress,
 		editingGuardMode, editingGuardVision,
-		editingCameraDir, editingCameraMode, editingCameraVision
+		editingCameraDirection, editingCameraVision
 	};
 }
 
@@ -190,20 +179,7 @@ export function setLevelId(id: string) { levelId = id; }
 export function setGuardMode(mode: 'pace' | 'loop') { editingGuardMode = mode; }
 export function setGuardVision(v: number) { editingGuardVision = v; }
 export function setCameraVision(v: number) { editingCameraVision = v; }
-export function setCameraDirection(dir: Direction) { editingCameraDir = [dir]; }
-export function setCameraMode(mode: 'fixed' | 'pace' | 'loop') {
-	editingCameraMode = mode;
-	if (mode === 'fixed' && editingCameraDir.length > 1) {
-		editingCameraDir = [editingCameraDir[0]];
-	}
-}
-export function toggleCameraPanDir(dir: Direction) {
-	if (editingCameraDir.includes(dir)) {
-		editingCameraDir = editingCameraDir.filter(d => d !== dir);
-	} else {
-		editingCameraDir = [...editingCameraDir, dir];
-	}
-}
+export function setCameraDirection(dir: Direction) { editingCameraDirection = dir; }
 export function finalizeGuardPath() { finalizeGuard(); }
 
 const PAINTABLE_TOOLS: Set<EditorTool> = new Set(['wall', 'cage', 'empty', 'eraser']);

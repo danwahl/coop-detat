@@ -3,14 +3,12 @@
 		initEditor, clickCell, setTool, exportLevel, importLevel,
 		validate, resizeGrid, getEditorState, setLevelName, setLevelId,
 		setGuardMode, setGuardVision, finalizeGuardPath,
-		setCameraDirection, setCameraMode, setCameraVision, toggleCameraPanDir,
+		setCameraDirection, setCameraVision,
 		isPaintable, paintCell
 	} from '$lib/stores/editorStore.svelte.js';
 	import { createGameState } from '$lib/engine/state.js';
 	import { solve } from '$lib/engine/solver.js';
-	import type { LevelDef, Direction } from '$lib/engine/types.js';
-
-	const ALL_DIRECTIONS: Direction[] = ['up', 'right', 'down', 'left'];
+	import type { LevelDef } from '$lib/engine/types.js';
 	import Grid from './Grid.svelte';
 	import GameView from './GameView.svelte';
 
@@ -160,52 +158,35 @@
 			{/each}
 		</div>
 
-		{#if editorState.currentTool === 'guard'}
-			<div class="entity-config-floating">
-				<label>Mode:
-					<select value={editorState.editingGuardMode} onchange={(e) => setGuardMode(e.currentTarget.value as 'pace' | 'loop')}>
-						<option value="pace">Pace</option>
-						<option value="loop">Loop</option>
-					</select>
-				</label>
-				<label>Vision: <input type="number" value={editorState.editingGuardVision} min="1" max="10" oninput={(e) => setGuardVision(+e.currentTarget.value)} /></label>
-				<span>Path: {editorState.guardPathInProgress.length} points</span>
-				<button onclick={finalizeGuardPath}>Finish Guard</button>
-			</div>
-		{/if}
-
-		{#if editorState.currentTool === 'camera'}
-			<div class="entity-config-floating">
-				<label>Mode:
-					<select value={editorState.editingCameraMode} onchange={(e) => setCameraMode(e.currentTarget.value as 'fixed' | 'pace' | 'loop')}>
-						<option value="fixed">Fixed</option>
-						<option value="pace">Pace</option>
-						<option value="loop">Loop</option>
-					</select>
-				</label>
-				{#if editorState.editingCameraMode === 'fixed'}
+		<div class="config-slot">
+			{#if editorState.currentTool === 'guard'}
+				<div class="entity-config">
+					<label>Mode:
+						<select value={editorState.editingGuardMode} onchange={(e) => setGuardMode(e.currentTarget.value as 'pace' | 'loop')}>
+							<option value="pace">Pace</option>
+							<option value="loop">Loop</option>
+						</select>
+					</label>
+					<label>Vision: <input type="number" value={editorState.editingGuardVision} min="1" max="10" oninput={(e) => setGuardVision(+e.currentTarget.value)} /></label>
+					<span>Path: {editorState.guardPathInProgress.length} points</span>
+					<button onclick={finalizeGuardPath}>Finish Guard</button>
+				</div>
+			{:else if editorState.currentTool === 'camera'}
+				<div class="entity-config">
 					<label>Direction:
-						<select value={editorState.editingCameraDir[0] ?? 'right'} onchange={(e) => setCameraDirection(e.currentTarget.value as 'up' | 'right' | 'down' | 'left')}>
+						<select value={editorState.editingCameraDirection} onchange={(e) => setCameraDirection(e.currentTarget.value as 'up' | 'right' | 'down' | 'left')}>
 							<option value="up">Up</option>
 							<option value="right">Right</option>
 							<option value="down">Down</option>
 							<option value="left">Left</option>
 						</select>
 					</label>
-				{:else}
-					<span>Dirs:</span>
-					{#each ALL_DIRECTIONS as dir}
-						<button
-							class:active={editorState.editingCameraDir.includes(dir)}
-							onclick={() => toggleCameraPanDir(dir)}
-						>{dir}</button>
-					{/each}
-				{/if}
-				<label>Vision: <input type="number" value={editorState.editingCameraVision} min="1" max="10" oninput={(e) => setCameraVision(+e.currentTarget.value)} /></label>
-			</div>
-		{/if}
+					<label>Vision: <input type="number" value={editorState.editingCameraVision} min="1" max="10" oninput={(e) => setCameraVision(+e.currentTarget.value)} /></label>
+				</div>
+			{/if}
+		</div>
 
-		<div class="grid-area" class:has-config-panel={editorState.currentTool === 'guard' || editorState.currentTool === 'camera'}>
+		<div class="grid-area">
 			<Grid state={previewState} showVision={true} onCellClick={clickCell} onCellDown={handleCellDown} onCellOver={handleCellOver} editingPath={editorState.currentTool === 'guard' ? editorState.guardPathInProgress : undefined} />
 		</div>
 	</div>
@@ -228,9 +209,10 @@
 	.palette { display: flex; gap: 4px; padding: 8px; background: #2a2a2a; }
 	.palette button { padding: 6px 12px; background: #444; color: white; border: 1px solid #666; border-radius: 4px; cursor: pointer; font-family: monospace; }
 	.palette button.active { background: #0078d4; border-color: #0078d4; }
-	.entity-config-floating { position: absolute; top: 90px; left: 8px; right: 8px; z-index: 10; padding: 8px 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-	.entity-config-floating label { display: flex; gap: 4px; align-items: center; }
-	.entity-config-floating input, .entity-config-floating select { width: 60px; padding: 2px; font-family: monospace; }
+	.config-slot { min-height: 44px; background: #2a2a2a; display: flex; align-items: center; padding: 0 12px; }
+	.entity-config { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+	.entity-config label { display: flex; gap: 4px; align-items: center; }
+	.entity-config input, .entity-config select { width: 60px; padding: 2px; font-family: monospace; }
 	.toast-container { position: fixed; top: 16px; right: 16px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; max-width: 360px; }
 	.toast { padding: 10px 16px; border-radius: 6px; font-family: monospace; font-size: 13px; color: white; animation: toast-in 0.2s ease-out; }
 	.toast-error { background: #c62828; }
@@ -238,7 +220,6 @@
 	.toast-info { background: #1565c0; }
 	@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 	.grid-area { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; overflow: hidden; touch-action: none; }
-	.grid-area.has-config-panel { padding-top: 56px; }
 	button { padding: 4px 12px; cursor: pointer; border: 1px solid #666; background: #555; color: white; border-radius: 4px; font-family: monospace; }
 	button:hover { background: #777; }
 </style>
