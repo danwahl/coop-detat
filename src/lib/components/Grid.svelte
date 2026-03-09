@@ -153,7 +153,7 @@
 	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
 		{#if i > 0}
-			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 12 : -12}
+			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 7 : -7}
 			<text
 				data-testid="snake-segment-{i}"
 				x={seg.x * cellSize + cellSize / 2}
