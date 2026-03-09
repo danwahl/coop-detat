@@ -8,7 +8,7 @@
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "wall", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "wall", "empty", "cage", "wall"],
+		["wall", "empty", "empty", "wall", "cage", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
@@ -42,5 +42,5 @@
 		}
 	],
 	"exit": { "x": 5, "y": 11 },
-	"par": 22
+	"par": 20
 }
