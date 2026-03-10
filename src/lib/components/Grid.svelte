@@ -99,10 +99,11 @@
 		return last.x === x && last.y === y;
 	}
 
+	let totalCages = $derived(state.level.grid.flat().filter(c => c === 'cage').length);
+
 	let drainsStarted = $derived.by(() => {
 		if (state.status === 'won') return true;
 		if (state.status === 'lost' || state.status === 'exiting') {
-			const totalCages = state.level.grid.flat().filter(c => c === 'cage').length;
 			const allCollected = state.collectedCages.length >= totalCages;
 			const onExit = state.playerPos.x === state.level.exit.x
 				&& state.playerPos.y === state.level.exit.y;
@@ -217,7 +218,8 @@
 	<!-- Snake body (rescued chickens) -->
 	{#each state.snake as seg, i}
 		{#if i > 0 || drainsStarted}
-			{@const tilt = ((state.turnNumber + i) % 2 === 0) ? 7 : -7}
+			{@const offset = drainsStarted ? (totalCages + 1 - state.snake.length) : 0}
+			{@const tilt = ((state.turnNumber + i + offset) % 2 === 0) ? 7 : -7}
 			{@const segCx = seg.x * cellSize + cellSize / 2}
 			{@const segCy = seg.y * cellSize + cellSize / 2}
 			<image
