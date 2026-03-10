@@ -1,46 +1,55 @@
 {
 	"id": "level8",
-	"name": "Descent",
-	"width": 7,
+	"name": "Liberation Day",
+	"width": 9,
 	"height": 13,
 	"grid": [
-		["wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "wall", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "wall", "cage", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "cage", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "cage", "empty", "wall"],
-		["wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "wall", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "wall", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
 	],
-	"playerStart": { "x": 1, "y": 1 },
+	"playerStart": { "x": 7, "y": 1 },
 	"guards": [
 		{
 			"id": "guard1",
-			"path": [{ "x": 3, "y": 5 }, { "x": 3, "y": 10 }],
+			"path": [{ "x": 1, "y": 5 }, { "x": 7, "y": 5 }],
 			"pathIndex": 0,
 			"pathDirection": 1,
 			"patrolMode": "pace",
-			"facing": "down",
+			"facing": "right",
+			"visionRange": 2
+		},
+		{
+			"id": "guard2",
+			"path": [{ "x": 7, "y": 8 }, { "x": 1, "y": 8 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "left",
 			"visionRange": 2
 		}
 	],
 	"cameras": [
 		{
 			"id": "cam1",
-			"pos": { "x": 5, "y": 6 },
-			"directions": ["up"],
+			"pos": { "x": 4, "y": 6 },
+			"directions": ["down"],
 			"dirIndex": 0,
 			"dirDirection": 1,
 			"patrolMode": "fixed",
 			"visionRange": 3
 		}
 	],
-	"exit": { "x": 5, "y": 11 },
-	"par": 24
+	"exit": { "x": 4, "y": 11 },
+	"par": 40
 }
