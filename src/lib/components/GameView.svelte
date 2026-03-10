@@ -122,8 +122,10 @@
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
+		height: 100dvh;
 		background: #222;
 		touch-action: none;
+		padding-bottom: env(safe-area-inset-bottom, 0);
 	}
 	.grid-wrapper {
 		flex: 1;

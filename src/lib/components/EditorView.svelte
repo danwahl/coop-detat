@@ -183,7 +183,7 @@
 {/if}
 
 <style>
-	.editor { display: flex; flex-direction: column; height: 100vh; background: #1a1a1a; color: white; font-family: monospace; position: relative; }
+	.editor { display: flex; flex-direction: column; height: 100vh; height: 100dvh; background: #1a1a1a; color: white; font-family: monospace; position: relative; padding-bottom: env(safe-area-inset-bottom, 0); }
 	.toolbar { display: flex; gap: 8px; padding: 8px; background: #333; flex-wrap: wrap; align-items: center; }
 	.toolbar input { width: 80px; padding: 4px; font-family: monospace; }
 	.toolbar input[type="text"] { width: 120px; }
