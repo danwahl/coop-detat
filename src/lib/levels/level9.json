@@ -1,0 +1,57 @@
+{
+	"id": "level9",
+	"name": "No Bird Left Behind",
+	"width": 9,
+	"height": 15,
+	"grid": [
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "wall", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "cage", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "cage", "empty", "empty", "wall"],
+		["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+	],
+	"playerStart": { "x": 7, "y": 1 },
+	"guards": [
+		{
+			"id": "guard1",
+			"path": [{ "x": 1, "y": 5 }, { "x": 7, "y": 5 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "right",
+			"visionRange": 2
+		},
+		{
+			"id": "guard2",
+			"path": [{ "x": 7, "y": 8 }, { "x": 1, "y": 8 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "left",
+			"visionRange": 2
+		}
+	],
+	"cameras": [
+		{
+			"id": "cam1",
+			"pos": { "x": 4, "y": 7 },
+			"directions": ["down"],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 3
+		}
+	],
+	"exit": { "x": 4, "y": 13 },
+	"par": 44
+}
