@@ -128,11 +128,13 @@
 			<input data-testid="level-id-input" type="text" value={editorState.levelId} oninput={(e) => setLevelId(e.currentTarget.value)} placeholder="Level ID" />
 			<label>W: <input data-testid="width-input" type="number" value={editorState.width} min="3" max="33" oninput={(e) => resizeGrid(+e.currentTarget.value, editorState.height)} /></label>
 			<label>H: <input data-testid="height-input" type="number" value={editorState.height} min="3" max="18" oninput={(e) => resizeGrid(editorState.width, +e.currentTarget.value)} /></label>
-			<button data-testid="export-button" onclick={handleExport}>Export</button>
-			<button data-testid="import-button" onclick={handleImport}>Import</button>
-			<button data-testid="validate-button" onclick={handleValidate}>Validate</button>
-			<button data-testid="solve-button" onclick={handleSolve}>Solve</button>
-		<button data-testid="test-play-button" onclick={handleTestPlay}>Test Play</button>
+			<div class="actions">
+				<button data-testid="export-button" onclick={handleExport}>Export</button>
+				<button data-testid="import-button" onclick={handleImport}>Import</button>
+				<button data-testid="validate-button" onclick={handleValidate}>Validate</button>
+				<button data-testid="solve-button" onclick={handleSolve}>Solve</button>
+				<button data-testid="test-play-button" onclick={handleTestPlay}>Test Play</button>
+			</div>
 		</div>
 
 		<div class="palette">
@@ -185,6 +187,7 @@
 <style>
 	.editor { display: flex; flex-direction: column; height: 100vh; height: 100dvh; background: #1a1a1a; color: white; font-family: monospace; position: relative; padding-bottom: env(safe-area-inset-bottom, 0); }
 	.toolbar { display: flex; gap: 8px; padding: 8px; background: #333; flex-wrap: wrap; align-items: center; }
+	.actions { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
 	.toolbar input { width: 80px; padding: 4px; font-family: monospace; }
 	.toolbar input[type="text"] { width: 120px; }
 .toolbar input[type="text"]::placeholder { color: #888; font-style: italic; }
@@ -207,8 +210,10 @@
 	button:hover { background: #777; }
 	@media (max-width: 480px) {
 		.palette button { padding: 4px 8px; font-size: 0.85rem; }
-		.toolbar { gap: 4px; padding: 4px; font-size: 0.85rem; }
-		.toolbar input { width: 60px; }
-		.toolbar input[type="text"] { width: 90px; }
+		.toolbar { gap: 4px; padding: 4px 6px; font-size: 0.8rem; }
+		.toolbar button { padding: 3px 6px; font-size: 0.8rem; }
+		.toolbar input { width: 50px; padding: 2px 4px; font-size: 0.8rem; }
+		.toolbar input[type="text"] { width: 70px; }
+		.toolbar label { font-size: 0.8rem; }
 	}
 </style>
