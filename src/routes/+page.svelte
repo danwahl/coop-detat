@@ -4,6 +4,7 @@
 	import GameView from '$lib/components/GameView.svelte';
 	import EditorView from '$lib/components/EditorView.svelte';
 	import { loadProgress, resetProgress } from '$lib/stores/progress.js';
+	import chickenUrl from '$lib/assets/emoji/chicken.svg';
 
 	let selectedLevel = $state<LevelDef | null>(null);
 	let showEditor = $state(false);
@@ -26,8 +27,14 @@
 	<GameView level={selectedLevel} onBack={() => { selectedLevel = null; refreshProgress(); }} onNextLevel={nextLevel ? () => { selectedLevel = nextLevel; refreshProgress(); } : undefined} />
 {:else}
 	<div class="menu" data-testid="menu">
-		<h1>Coop D'etat</h1>
-		<p>Rescue the chickens.</p>
+		<div class="menu-header">
+			<h1>Coop D'etat</h1>
+			<p class="subtitle">
+				<img src={chickenUrl} alt="" class="subtitle-chicken left" />
+				Rescue the chickens
+				<img src={chickenUrl} alt="" class="subtitle-chicken right" />
+			</p>
+		</div>
 		<div class="level-list">
 			{#each levels as level}
 				{@const prog = progress[level.id]}
@@ -44,35 +51,62 @@
 				</button>
 			{/each}
 		</div>
-		<button class="editor-btn" data-testid="editor-button" onclick={() => (showEditor = true)}>Level Editor</button>
-		{#if Object.keys(progress).length > 0}
-			<button class="reset-btn" data-testid="reset-progress-button" onclick={() => { resetProgress(); refreshProgress(); }}>Reset Progress</button>
-		{/if}
-		<span class="version">v{__APP_VERSION__}</span>
+		<div class="menu-footer">
+			<button class="editor-btn" data-testid="editor-button" onclick={() => (showEditor = true)}>Level Editor</button>
+			{#if Object.keys(progress).length > 0}
+				<button class="reset-btn" data-testid="reset-progress-button" onclick={() => { resetProgress(); refreshProgress(); }}>Reset Progress</button>
+			{/if}
+			<span class="version">v{__APP_VERSION__}</span>
+		</div>
 	</div>
 {/if}
 
 <style>
-	:global(body) {
+	:global(html, body) {
 		margin: 0;
 		background: #1a1a1a;
 		color: white;
 		font-family: monospace;
+		overflow: hidden;
+		height: 100vh;
+		height: 100dvh;
 	}
 	.menu {
+		height: 100vh;
+		height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+	.menu-header {
+		padding: 24px 16px 16px;
+		text-align: center;
+		flex-shrink: 0;
+	}
+	h1 { font-size: 2.5rem; margin-bottom: 8px; }
+	.subtitle {
+		color: #aaa;
+		margin-bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+	}
+	.subtitle-chicken {
+		width: 1.2em;
+		height: 1.2em;
+		display: inline-block;
+	}
+	.subtitle-chicken.left { transform: rotate(-7deg); }
+	.subtitle-chicken.right { transform: rotate(7deg); }
+	.level-list {
+		flex: 1;
+		overflow-y: auto;
+		padding: 0 16px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 48px 16px;
-	}
-	h1 { font-size: 2.5rem; margin-bottom: 8px; }
-	p { color: #aaa; margin-bottom: 32px; }
-	.level-list {
-		display: flex;
-		flex-direction: column;
 		gap: 8px;
-		width: 100%;
-		max-width: 300px;
 	}
 	.level-list button {
 		padding: 12px 16px;
@@ -87,6 +121,8 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 8px;
+		width: 100%;
+		max-width: 300px;
 	}
 	.level-list button:hover { background: #444; }
 	.level-info { display: flex; align-items: center; gap: 8px; min-width: 0; }
@@ -95,8 +131,12 @@
 	.status-dot.solved { background: #FFD700; }
 	.status-dot.perfect { background: #4CAF50; }
 	.par { color: #888; white-space: nowrap; flex-shrink: 0; font-size: 0.85rem; }
+	.menu-footer {
+		padding: 16px;
+		text-align: center;
+		flex-shrink: 0;
+	}
 	.editor-btn {
-		margin-top: 32px;
 		padding: 12px 24px;
 		font-size: 1rem;
 		font-family: monospace;
@@ -108,7 +148,8 @@
 	}
 	.editor-btn:hover { background: #666; }
 	.reset-btn {
-		margin-top: 16px;
+		display: block;
+		margin: 12px auto 0;
 		padding: 8px 16px;
 		font-size: 0.85rem;
 		font-family: monospace;
@@ -119,5 +160,5 @@
 		cursor: pointer;
 	}
 	.reset-btn:hover { background: #555; color: white; }
-	.version { margin-top: 32px; font-size: 0.7rem; color: #555; }
+	.version { display: block; margin-top: 12px; font-size: 0.7rem; color: #555; }
 </style>
