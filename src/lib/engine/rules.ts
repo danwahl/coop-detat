@@ -1,4 +1,4 @@
-import type { Direction, GameState } from './types.js';
+import type { Direction, GameState, Position } from './types.js';
 import { cloneState } from './state.js';
 import { movePlayer, canMove as canMovePlayer } from './movement.js';
 import { tickGuards, tickCameras } from './entities.js';
@@ -22,8 +22,18 @@ export function canMove(state: GameState, direction: Direction): boolean {
 function exitTick(state: GameState): GameState {
 	const next = cloneState(state);
 
-	// Remove tail segment (chicken enters the door)
-	next.snake = next.snake.slice(0, -1);
+	// Head entity goes through the door.
+	// Each remaining entity advances to the position of the one ahead.
+	const newSnake: Position[] = [];
+	for (let i = 1; i < next.snake.length; i++) {
+		newSnake.push({ ...next.snake[i - 1] });
+	}
+	next.snake = newSnake;
+
+	// Update playerPos to track the new head (or keep at exit if empty)
+	if (newSnake.length > 0) {
+		next.playerPos = { ...newSnake[0] };
+	}
 
 	// Guards and cameras still tick
 	next.guards = tickGuards(next.guards);
