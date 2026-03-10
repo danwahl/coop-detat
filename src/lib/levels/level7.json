@@ -2,27 +2,52 @@
 	"id": "level7",
 	"name": "The Tower",
 	"width": 7,
-	"height": 11,
+	"height": 17,
 	"grid": [
 		["wall", "wall", "wall", "wall", "wall", "wall", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "wall", "wall", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "cage", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
-		["wall", "empty", "wall", "wall", "empty", "empty", "wall"],
-		["wall", "empty", "empty", "empty", "empty", "cage", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "wall"],
 		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "wall", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "cage", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "wall", "empty", "wall"],
 		["wall", "empty", "cage", "empty", "empty", "empty", "wall"],
+		["wall", "empty", "empty", "empty", "empty", "empty", "wall"],
 		["wall", "wall", "wall", "wall", "wall", "wall", "wall"]
 	],
-	"playerStart": { "x": 1, "y": 1 },
-	"guards": [],
+	"playerStart": { "x": 5, "y": 1 },
+	"guards": [
+		{
+			"id": "guard1",
+			"path": [{ "x": 1, "y": 4 }, { "x": 5, "y": 4 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "right",
+			"visionRange": 2
+		},
+		{
+			"id": "guard2",
+			"path": [{ "x": 5, "y": 9 }, { "x": 1, "y": 9 }],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "left",
+			"visionRange": 2
+		}
+	],
 	"cameras": [
 		{
 			"id": "cam1",
-			"pos": { "x": 5, "y": 3 },
-			"directions": ["down"],
+			"pos": { "x": 5, "y": 5 },
+			"directions": ["left"],
 			"dirIndex": 0,
 			"dirDirection": 1,
 			"patrolMode": "fixed",
@@ -30,14 +55,14 @@
 		},
 		{
 			"id": "cam2",
-			"pos": { "x": 1, "y": 6 },
-			"directions": ["down"],
+			"pos": { "x": 1, "y": 13 },
+			"directions": ["right"],
 			"dirIndex": 0,
 			"dirDirection": 1,
 			"patrolMode": "fixed",
 			"visionRange": 3
 		}
 	],
-	"exit": { "x": 5, "y": 9 },
-	"par": 18
+	"exit": { "x": 1, "y": 15 },
+	"par": 33
 }
