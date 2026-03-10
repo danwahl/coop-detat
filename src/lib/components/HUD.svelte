@@ -46,6 +46,9 @@
 				{/if}
 				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
 			{/if}
+			{#if status === 'lost'}
+				<button data-testid="overlay-undo-button" onclick={onUndo}>Undo <kbd>Z</kbd></button>
+			{/if}
 			<button data-testid="overlay-restart-button" onclick={onRestart}>Restart <kbd>R</kbd></button>
 			{#if status === 'won' && onNextLevel}
 				<button data-testid="next-level-button" onclick={onNextLevel}>Next Level <kbd>N</kbd></button>
@@ -103,4 +106,11 @@
 	.rescue-message { font-size: 1.2rem; color: #fff8e1; margin-bottom: 4px; }
 	.chicken-lineup { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 8px; }
 	.overlay-content button { margin: 4px; font-size: 1rem; padding: 8px 16px; }
+	@media (max-width: 480px) {
+		kbd { display: none; }
+		.hud { padding: 6px 8px; gap: 4px; }
+		.hud button { padding: 4px 8px; font-size: 0.85rem; }
+		.hud-center { gap: 8px; font-size: 0.85rem; }
+		.hud-right { gap: 4px; }
+	}
 </style>
