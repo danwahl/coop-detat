@@ -40,7 +40,8 @@ export function cloneState(state: GameState): GameState {
 		collectedCages: state.collectedCages.map(p => ({ ...p })),
 		pendingChicken: state.pendingChicken,
 		turnNumber: state.turnNumber,
-		status: state.status
+		status: state.status,
+		lostReason: state.lostReason
 	};
 }
 

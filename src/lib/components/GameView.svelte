@@ -106,6 +106,7 @@
 		turnNumber={state.turnNumber}
 		par={state.level.par}
 		status={state.status}
+		lostReason={state.lostReason}
 		{onBack}
 		{onNextLevel}
 		onUndo={undo}

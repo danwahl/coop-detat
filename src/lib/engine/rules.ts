@@ -1,6 +1,8 @@
 import type { Direction, GameState, Position } from './types.js';
 import { cloneState } from './state.js';
 import { movePlayer, canMove as canMovePlayer } from './movement.js';
+
+const DIRECTIONS: Direction[] = ['up', 'down', 'left', 'right'];
 import { tickGuards, tickCameras } from './entities.js';
 import { isDetected, isCageTheftDetected } from './detection.js';
 
@@ -42,6 +44,7 @@ function exitTick(state: GameState): GameState {
 	// Detection on remaining snake
 	if (isDetected(next)) {
 		next.status = 'lost';
+		next.lostReason = 'caught';
 	} else if (next.snake.length === 0) {
 		next.status = 'won';
 	}
@@ -64,8 +67,10 @@ export function tick(state: GameState, direction: Direction): GameState | null {
 
 	if (isDetected(next)) {
 		next.status = 'lost';
+		next.lostReason = 'caught';
 	} else if (isCageTheftDetected(state, next)) {
 		next.status = 'lost';
+		next.lostReason = 'caught';
 	} else if (
 		allCagesCollected(next) &&
 		next.playerPos.x === next.level.exit.x &&
@@ -76,6 +81,9 @@ export function tick(state: GameState, direction: Direction): GameState | null {
 		} else {
 			next.status = 'exiting';
 		}
+	} else if (DIRECTIONS.every((dir) => !canMovePlayer(next, dir))) {
+		next.status = 'lost';
+		next.lostReason = 'stuck';
 	}
 
 	next.turnNumber++;

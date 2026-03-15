@@ -46,6 +46,7 @@ export type GameState = {
 	pendingChicken: boolean;
 	turnNumber: number;
 	status: 'playing' | 'exiting' | 'won' | 'lost';
+	lostReason?: 'caught' | 'stuck';
 };
 
 export type GameStore = {

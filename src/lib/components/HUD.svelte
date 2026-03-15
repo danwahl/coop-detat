@@ -5,6 +5,7 @@
 		turnNumber: number;
 		par?: number;
 		status: 'playing' | 'exiting' | 'won' | 'lost';
+		lostReason?: 'caught' | 'stuck';
 		onUndo: () => void;
 		onRestart: () => void;
 		onBack: () => void;
@@ -12,7 +13,7 @@
 		chickenCount?: number;
 	}
 
-	let { turnNumber, par, status, onUndo, onRestart, onBack, onNextLevel, chickenCount }: Props = $props();
+	let { turnNumber, par, status, lostReason, onUndo, onRestart, onBack, onNextLevel, chickenCount }: Props = $props();
 </script>
 
 <div class="hud" data-testid="hud">
@@ -34,7 +35,7 @@
 {#if status === 'won' || status === 'lost'}
 	<div class="overlay" class:won={status === 'won'} class:lost={status === 'lost'} data-testid="status-overlay">
 		<div class="overlay-content">
-			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : 'Caught!'}</h2>
+			<h2 data-testid="status-message">{status === 'won' ? 'Level Complete!' : lostReason === 'stuck' ? 'Stuck!' : 'Caught!'}</h2>
 			{#if status === 'won'}
 				{#if chickenCount}
 					<p class="rescue-message">You rescued {chickenCount} chicken{chickenCount !== 1 ? 's' : ''}!</p>
