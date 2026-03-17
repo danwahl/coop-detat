@@ -107,7 +107,10 @@
 			const allCollected = state.collectedCages.length >= totalCages;
 			const onExit = state.playerPos.x === state.level.exit.x
 				&& state.playerPos.y === state.level.exit.y;
-			return allCollected && onExit && state.snake.length < totalCages + 1;
+			// A pending chicken hasn't joined the snake yet — count it toward
+			// the effective length so draining doesn't visually start early.
+			const effectiveLength = state.snake.length + (state.pendingChicken ? 1 : 0);
+			return allCollected && onExit && effectiveLength < totalCages + 1;
 		}
 		return false;
 	});

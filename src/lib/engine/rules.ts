@@ -30,6 +30,12 @@ function exitTick(state: GameState): GameState {
 	for (let i = 1; i < next.snake.length; i++) {
 		newSnake.push({ ...next.snake[i - 1] });
 	}
+	// If a chicken was pending (cage collected on the same turn as reaching
+	// the exit), it joins the line now — the tail stays, offsetting the drain.
+	if (next.pendingChicken) {
+		newSnake.push({ ...next.snake[next.snake.length - 1] });
+		next.pendingChicken = false;
+	}
 	next.snake = newSnake;
 
 	// Update playerPos to track the new head (or keep at exit if empty)
