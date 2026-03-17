@@ -1,0 +1,161 @@
+{
+	"id": "level10",
+	"name": "There and Back Again",
+	"width": 10,
+	"height": 7,
+	"grid": [
+		[
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall"
+		],
+		[
+			"wall",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"wall"
+		],
+		[
+			"wall",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"wall"
+		],
+		[
+			"wall",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"wall",
+			"empty",
+			"wall",
+			"empty",
+			"wall"
+		],
+		[
+			"wall",
+			"empty",
+			"empty",
+			"empty",
+			"empty",
+			"wall",
+			"empty",
+			"wall",
+			"empty",
+			"wall"
+		],
+		[
+			"wall",
+			"wall",
+			"cage",
+			"cage",
+			"cage",
+			"wall",
+			"cage",
+			"wall",
+			"empty",
+			"wall"
+		],
+		[
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall",
+			"wall"
+		]
+	],
+	"playerStart": {
+		"x": 1,
+		"y": 1
+	},
+	"guards": [
+		{
+			"id": "guard-1773545454524",
+			"path": [
+				{
+					"x": 8,
+					"y": 1
+				},
+				{
+					"x": 7,
+					"y": 1
+				},
+				{
+					"x": 6,
+					"y": 1
+				},
+				{
+					"x": 6,
+					"y": 2
+				},
+				{
+					"x": 6,
+					"y": 1
+				},
+				{
+					"x": 5,
+					"y": 1
+				},
+				{
+					"x": 4,
+					"y": 1
+				},
+				{
+					"x": 4,
+					"y": 2
+				}
+			],
+			"pathIndex": 0,
+			"pathDirection": 1,
+			"patrolMode": "pace",
+			"facing": "right",
+			"visionRange": 3
+		}
+	],
+	"cameras": [
+		{
+			"id": "cam-1773545619084",
+			"pos": {
+				"x": 1,
+				"y": 2
+			},
+			"directions": [
+				"down"
+			],
+			"dirIndex": 0,
+			"dirDirection": 1,
+			"patrolMode": "fixed",
+			"visionRange": 3
+		}
+	],
+	"exit": {
+		"x": 8,
+		"y": 5
+	},
+	"par": 50
+}
