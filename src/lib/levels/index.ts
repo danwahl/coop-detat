@@ -9,7 +9,10 @@ import level7 from './level7.json';
 import level8 from './level8.json';
 import level9 from './level9.json';
 import level10 from './level10.json';
+import level11 from './level11.json';
 
 export const levels: LevelDef[] = [
 	level1, level2, level3, level4, level5, level6, level7, level8, level9, level10
 ].map(l => l as LevelDef);
+
+export const secretLevel: LevelDef = level11 as LevelDef;

@@ -22,9 +22,7 @@
 	</div>
 	<div class="hud-center">
 		<span data-testid="move-counter">Moves: {turnNumber}</span>
-		{#if par}
-			<span class="par" data-testid="par-display">Par: {par}</span>
-		{/if}
+		<span class="par" data-testid="par-display">Par: {par ?? '???'}</span>
 	</div>
 	<div class="hud-right">
 		<button data-testid="undo-button" onclick={onUndo}>Undo <kbd>Z</kbd></button>
@@ -45,7 +43,7 @@
 						{/each}
 					</p>
 				{/if}
-				<p>Moves: {turnNumber}{par ? ` (Par: ${par})` : ''}</p>
+				<p>Moves: {turnNumber} (Par: {par ?? '???'})</p>
 			{/if}
 			{#if status === 'lost'}
 				<button data-testid="overlay-undo-button" onclick={onUndo}>Undo <kbd>Z</kbd></button>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { LevelDef } from '$lib/engine/types.js';
-	import { levels } from '$lib/levels/index.js';
+	import { levels, secretLevel } from '$lib/levels/index.js';
 	import GameView from '$lib/components/GameView.svelte';
 	import EditorView from '$lib/components/EditorView.svelte';
 	import { loadProgress, resetProgress } from '$lib/stores/progress.js';
@@ -13,6 +13,11 @@
 	function refreshProgress() {
 		progress = loadProgress();
 	}
+
+	let allPerfect = $derived(levels.every(l => {
+		const p = progress[l.id];
+		return p?.solved && l.par && p.bestMoves <= l.par;
+	}));
 
 	let nextLevel = $derived.by(() => {
 		if (!selectedLevel) return null;
@@ -45,11 +50,22 @@
 						<span>{level.name}</span>
 					</span>
 					<span class="par">
-						{#if prog?.bestMoves}Best: {prog.bestMoves}{/if}
-						{#if level.par}{prog?.bestMoves ? ' | ' : ''}Par: {level.par}{/if}
+						{#if prog?.bestMoves}Best: {prog.bestMoves} | {/if}Par: {level.par ?? '???'}
 					</span>
 				</button>
 			{/each}
+			{#if allPerfect}
+				{@const secretProg = progress[secretLevel.id]}
+				<button data-testid="secret-level-button" onclick={() => (selectedLevel = secretLevel)}>
+					<span class="level-info">
+						<span class="status-dot" class:perfect={secretProg?.solved}></span>
+						<span>{secretProg?.solved ? secretLevel.name : '???'}</span>
+					</span>
+					<span class="par">
+						{#if secretProg?.bestMoves}Best: {secretProg.bestMoves} | {/if}Par: {secretLevel.par ?? '???'}
+					</span>
+				</button>
+			{/if}
 		</div>
 		<div class="menu-footer">
 			<button class="editor-btn" data-testid="editor-button" onclick={() => (showEditor = true)}>Level Editor</button>
