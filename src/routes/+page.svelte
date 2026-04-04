@@ -54,19 +54,15 @@
 					</span>
 				</button>
 			{/each}
-			{#if allPerfect}
-				{@const secretProg = progress[secretLevel.id]}
-				<button data-testid="secret-level-button" onclick={() => (selectedLevel = secretLevel)}>
-					<span class="level-info">
-						<span class="status-dot" class:perfect={secretProg?.solved}></span>
-						<span>{secretProg?.solved ? secretLevel.name : '???'}</span>
-					</span>
-					<span class="par">
-						{#if secretProg?.bestMoves}Best: {secretProg.bestMoves} | {/if}Par: {secretLevel.par ?? '???'}
-					</span>
-				</button>
-			{/if}
 		</div>
+		{#if allPerfect}
+			{@const secretProg = progress[secretLevel.id]}
+			<div class="secret-level">
+				<button class="secret-btn" class:solved={secretProg?.solved} data-testid="secret-level-button" onclick={() => (selectedLevel = secretLevel)}>
+					{secretProg?.solved ? '!!!' : '???'}
+				</button>
+			</div>
+		{/if}
 		<div class="menu-footer">
 			<button class="editor-btn" data-testid="editor-button" onclick={() => (showEditor = true)}>Level Editor</button>
 			{#if Object.keys(progress).length > 0}
@@ -163,6 +159,20 @@
 		cursor: pointer;
 	}
 	.editor-btn:hover { background: #666; }
+	.secret-level { text-align: center; padding: 8px 16px 0; flex-shrink: 0; }
+	.secret-btn {
+		padding: 8px 24px;
+		font-size: 1rem;
+		font-family: monospace;
+		background: transparent;
+		color: #555;
+		border: 1px dashed #444;
+		border-radius: 8px;
+		cursor: pointer;
+		letter-spacing: 4px;
+	}
+	.secret-btn:hover { color: #FFD700; border-color: #FFD700; }
+	.secret-btn.solved { color: #FFD700; border-color: #FFD700; letter-spacing: normal; }
 	.reset-btn {
 		display: block;
 		margin: 12px auto 0;
